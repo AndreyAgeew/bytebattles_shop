@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey, JSON, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
@@ -38,11 +38,15 @@ class User(Base):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор пользователя.")
+    email = Column(String(length=320), unique=True, index=True, nullable=False)
     name = Column(String, nullable=False, doc="Имя пользователя.")
     surname = Column(String, nullable=False, doc="Фамилия пользователя.")
     patronymic = Column(String, nullable=True, doc="Отчество пользователя (по желанию).")
     phone_number = Column(String, nullable=False, doc="Номер телефона пользователя.")
-    password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
+    hashed_password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
     registered_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени регистрации пользователя.")
     role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'),
                      doc="Идентификатор связанной с пользователем роли.")
+    is_active = Column(Boolean, default=True, nullable=False)
+    is_superuser = Column(Boolean, default=False, nullable=False)
+    is_verified = Column(Boolean, default=False, nullable=False)
