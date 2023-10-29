@@ -25,7 +25,7 @@ def upgrade() -> None:
     op.add_column('users', sa.Column('is_active', sa.Boolean(), nullable=False))
     op.add_column('users', sa.Column('is_superuser', sa.Boolean(), nullable=False))
     op.add_column('users', sa.Column('is_verified', sa.Boolean(), nullable=False))
-    op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
+    op.create_index(op.f('ix_user_email'), 'users', ['email'], unique=True)
     op.drop_column('users', 'password')
     # ### end Alembic commands ###
 
