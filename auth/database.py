@@ -23,7 +23,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     name: Mapped[str] = mapped_column(String, nullable=False, doc="Имя пользователя.")
     surname: Mapped[str] = mapped_column(String, nullable=False, doc="Фамилия пользователя.")
     patronymic: Mapped[str] = mapped_column(String, nullable=True, doc="Отчество пользователя (по желанию).")
-    phone_number: Mapped[str] = mapped_column(String, nullable=False, doc="Номер телефона пользователя.")
+    phone_number: Mapped[str] = mapped_column(String, nullable=False, unique=True, doc="Номер телефона пользователя.")
     registered_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow(),
                                                     doc="Метка времени регистрации пользователя.")
     role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),

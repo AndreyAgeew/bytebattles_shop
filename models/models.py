@@ -42,7 +42,7 @@ class User(Base):
     name = Column(String, nullable=False, doc="Имя пользователя.")
     surname = Column(String, nullable=False, doc="Фамилия пользователя.")
     patronymic = Column(String, nullable=True, doc="Отчество пользователя (по желанию).")
-    phone_number = Column(String, nullable=False, doc="Номер телефона пользователя.")
+    phone_number = Column(String, nullable=False,unique=True, doc="Номер телефона пользователя.")
     hashed_password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
     registered_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени регистрации пользователя.")
     role_id = Column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),

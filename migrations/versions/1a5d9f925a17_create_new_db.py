@@ -1,8 +1,8 @@
 """Create new DB
 
-Revision ID: 193d8d5a43fe
+Revision ID: 1a5d9f925a17
 Revises: 
-Create Date: 2023-10-29 14:44:56.919227
+Create Date: 2023-10-29 22:51:43.091672
 
 """
 from typing import Sequence, Union
@@ -11,7 +11,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision: str = '193d8d5a43fe'
+revision: str = '1a5d9f925a17'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,7 +39,8 @@ def upgrade() -> None:
                     sa.Column('is_superuser', sa.Boolean(), nullable=False),
                     sa.Column('is_verified', sa.Boolean(), nullable=False),
                     sa.ForeignKeyConstraint(['role_id'], ['role.id'], ondelete='CASCADE'),
-                    sa.PrimaryKeyConstraint('id')
+                    sa.PrimaryKeyConstraint('id'),
+                    sa.UniqueConstraint('phone_number')
                     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     # ### end Alembic commands ###
