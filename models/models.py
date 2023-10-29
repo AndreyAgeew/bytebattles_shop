@@ -14,7 +14,7 @@ class Role(Base):
         name (Column): Название роли.
         permissions (Column): JSON-объект, содержащий ролевые разрешения.
     """
-    __tablename__ = "roles"
+    __tablename__ = "role"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор роли.")
     name = Column(String, nullable=False, doc="Название роли.")
@@ -35,7 +35,7 @@ class User(Base):
         registered_at (Column): Метка времени регистрации пользователя.
         role_id (Column): Идентификатор связанной с пользователем роли.
     """
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор пользователя.")
     name = Column(String, nullable=False, doc="Имя пользователя.")
@@ -44,5 +44,5 @@ class User(Base):
     phone_number = Column(String, nullable=False, doc="Номер телефона пользователя.")
     password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
     registered_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени регистрации пользователя.")
-    role_id = Column(Integer, ForeignKey('roles.id', ondelete='CASCADE'),
+    role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'),
                      doc="Идентификатор связанной с пользователем роли.")
