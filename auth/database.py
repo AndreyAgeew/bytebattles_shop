@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 from sqlalchemy.orm import sessionmaker, Mapped, mapped_column
 from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+from models.models import Role
 
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
@@ -25,7 +26,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     phone_number: Mapped[str] = mapped_column(String, nullable=False, doc="Номер телефона пользователя.")
     registered_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow(),
                                                     doc="Метка времени регистрации пользователя.")
-    role_id: Mapped[int] = mapped_column(Integer, ForeignKey('role.id', ondelete='CASCADE'),
+    role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),
                                          doc="Идентификатор связанной с пользователем роли.")
     hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False, doc="Хэш пароля пользователя.")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, doc="Активен ли пользователь.")

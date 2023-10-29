@@ -35,7 +35,7 @@ class User(Base):
         registered_at (Column): Метка времени регистрации пользователя.
         role_id (Column): Идентификатор связанной с пользователем роли.
     """
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор пользователя.")
     email = Column(String(length=320), unique=True, index=True, nullable=False)
@@ -45,7 +45,7 @@ class User(Base):
     phone_number = Column(String, nullable=False, doc="Номер телефона пользователя.")
     hashed_password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
     registered_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени регистрации пользователя.")
-    role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'),
+    role_id = Column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),
                      doc="Идентификатор связанной с пользователем роли.")
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
