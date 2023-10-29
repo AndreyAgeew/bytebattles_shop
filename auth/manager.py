@@ -9,7 +9,7 @@ from auth.database import User, get_user_db
 SECRET = "SECRET"
 
 
-class UserManager(IntegerIDMixin, BaseUserManager[User, uuid.UUID]):
+class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
