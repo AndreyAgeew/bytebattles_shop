@@ -35,7 +35,7 @@ class User(Base):
         registered_at (Column): Метка времени регистрации пользователя.
         role_id (Column): Идентификатор связанной с пользователем роли.
     """
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор пользователя.")
     email = Column(String(length=320), unique=True, index=True, nullable=False)
