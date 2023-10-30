@@ -6,7 +6,7 @@ from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, s
 
 from auth.errors import PasswordValidationError, PhoneValidationError
 from auth.models import User
-from database import get_user_db
+from auth.utils import get_user_db
 
 SECRET = "SECRET"
 
