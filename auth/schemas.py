@@ -20,6 +20,7 @@ class UserRead(schemas.BaseUser[int]):
 class UserCreate(schemas.BaseUserCreate):
     email: EmailStr
     password: str
+    confirm_password: str
     name: str
     surname: str
     patronymic: str
