@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, HTTPException
 from passlib.context import CryptContext
 
-from auth.auth import get_jwt_strategy
+from auth.base_config import get_jwt_strategy
 from auth.dao import UserDAO
 from auth.schemas import SUserAuth
 

@@ -1,7 +1,6 @@
 from sqlalchemy import select
 
-from auth.database import async_session_maker
-from models.models import User
+from database import User, async_session_maker
 
 
 class UserDAO:
