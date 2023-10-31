@@ -1,8 +1,7 @@
 from datetime import datetime
 
 from fastapi import Request, HTTPException, Depends
-from jose import jwt, JWTError
-
+import jwt
 from auth.dao import UserDAO
 from config import JWT_KEY, ALGORITHM_JWT
 
@@ -19,15 +18,15 @@ async def get_current_user(token: str = Depends(get_token)):
         payload = jwt.decode(
             token, JWT_KEY, ALGORITHM_JWT
         )
-    except JWTError:
+    except:
         raise HTTPException(status_code=401)
     expire: str = payload.get("exp")
-    if not expire or int(expire) < datetime.utcnow():
+    if not expire or int(expire) < datetime.utcnow().timestamp():
         raise HTTPException(status_code=401)
     user_id: str = payload.get("sub")
     if not user_id:
         raise HTTPException(status_code=401)
-    user = await UserDAO.find_by_id(user_id)
+    user = await UserDAO.find_by_id(int(user_id))
     if not user:
         raise HTTPException(status_code=401)
     return user
