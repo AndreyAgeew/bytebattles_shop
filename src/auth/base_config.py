@@ -8,7 +8,7 @@ from fastapi_users.authentication import JWTStrategy
 
 from auth.manager import get_user_manager
 from auth.models import User
-from config import JTWTS_KEY
+from config import JTWTS_KEY, JWT_KEY, ALGORITHM_JWT
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
 
@@ -24,7 +24,7 @@ def create_access_token(data: dict):
     expire = datetime.utcnow() + timedelta(minutes=30)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(
-        to_encode, "asdlajsdasASDASD", "HS256"
+        to_encode, JWT_KEY, ALGORITHM_JWT
     )
     return encoded_jwt
 
