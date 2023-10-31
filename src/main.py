@@ -1,14 +1,16 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from auth.base_config import fastapi_users
 from auth.schemas import UserRead, UserCreate
 
 from auth.router import router as login
 from goods.router import router as goods
+from pages.router import router as pages
 
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -32,3 +34,4 @@ app.include_router(
 
 app.include_router(login)
 app.include_router(goods)
+app.include_router(pages)
