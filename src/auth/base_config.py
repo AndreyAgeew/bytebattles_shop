@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+import jwt
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import CookieTransport, AuthenticationBackend
 
@@ -14,6 +17,16 @@ JTWTS_KEY = JTWTS_KEY
 
 def get_jwt_strategy() -> JWTStrategy:
     return JWTStrategy(secret=JTWTS_KEY, lifetime_seconds=3600)
+
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=30)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(
+        to_encode, "asdlajsdasASDASD", "HS256"
+    )
+    return encoded_jwt
 
 
 auth_backend = AuthenticationBackend(
