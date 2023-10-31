@@ -18,5 +18,3 @@ templates = Jinja2Templates(directory="src/templates")
 def get_base_page(request: Request, user: User = Depends(fastapi_users.current_user())):
     title = "Базовая страница"
     return templates.TemplateResponse("base.html", {"request": request, "title": title, "user": user})
-
-
