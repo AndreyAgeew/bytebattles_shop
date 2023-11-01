@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy import select, insert
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.dependecies import get_current_user, get_current_admin_user
 from auth.models import User
 from database import get_async_session
-from goods.models import Goods
-from goods.schemas import GoodsCreate
+from goods.dao import GoodsDAO
+from goods.schemas import GoodsCreate, GoodsUpdate
 
 router = APIRouter(
     prefix="/goods",
@@ -17,15 +16,44 @@ router = APIRouter(
 @router.get("/")
 async def get_activity_goods(user: User = Depends(get_current_user),
                              session: AsyncSession = Depends(get_async_session)):
-    query = select(Goods.name).where(Goods.is_active == True)
-    result = await session.execute(query)
-    return [row[0] for row in result]
+    goods = await GoodsDAO.find_all(session)
+    return goods
+
+
+@router.get("/{goods_id}")
+async def get_goods(goods_id: int = Path(..., title="Goods ID"), session: AsyncSession = Depends(get_async_session)):
+    goods = await GoodsDAO.find_by_id(session, goods_id)
+    if goods is None:
+        raise HTTPException(status_code=404, detail="Goods not found")
+    return goods
 
 
 @router.post("/")
 async def add_goods(goods_data: GoodsCreate, user: User = Depends(get_current_admin_user),
                     session: AsyncSession = Depends(get_async_session)):
-    stmt = insert(Goods).values(**goods_data.dict())
-    await session.execute(stmt)
+    await GoodsDAO.add_goods(session, goods_data.dict())
+    await session.commit()
+    return {"status": "success"}
+
+
+@router.put("/{goods_id}")
+async def update_goods(goods_data: GoodsUpdate, goods_id: int = Path(..., title="Goods ID"),
+                       user: User = Depends(get_current_admin_user),
+                       session: AsyncSession = Depends(get_async_session)):
+    existing_goods = await GoodsDAO.find_by_id(session, goods_id)
+    if existing_goods is None:
+        raise HTTPException(status_code=404, detail="Goods not found")
+    await GoodsDAO.update_goods(session, goods_id, goods_data.dict())
+    await session.commit()
+    return {"status": "success"}
+
+
+@router.delete("/{goods_id}")
+async def delete_goods(goods_id: int = Path(..., title="Goods ID"), user: User = Depends(get_current_admin_user),
+                       session: AsyncSession = Depends(get_async_session)):
+    existing_goods = await GoodsDAO.find_by_id(session, goods_id)
+    if existing_goods is None:
+        raise HTTPException(status_code=404, detail="Goods not found")
+    await GoodsDAO.delete_goods(session, goods_id)
     await session.commit()
     return {"status": "success"}
