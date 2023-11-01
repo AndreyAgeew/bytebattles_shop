@@ -11,3 +11,11 @@ class GoodsCreate(BaseModel):
     quantity: int
     updated_at: datetime
     is_active: bool
+
+
+class GoodsUpdate(BaseModel):
+    name: str
+    price: Decimal
+    quantity: int
+    updated_at: datetime
+    is_active: bool
