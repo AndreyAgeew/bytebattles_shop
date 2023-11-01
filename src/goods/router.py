@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.dependecies import get_current_user
+from auth.dependecies import get_current_user, get_current_admin_user
 from auth.models import User
 from database import get_async_session
 from goods.models import Goods
@@ -23,7 +23,7 @@ async def get_activity_goods(user: User = Depends(get_current_user),
 
 
 @router.post("/")
-async def add_goods(goods_data: GoodsCreate, user: User = Depends(get_current_user),
+async def add_goods(goods_data: GoodsCreate, user: User = Depends(get_current_admin_user),
                     session: AsyncSession = Depends(get_async_session)):
     stmt = insert(Goods).values(**goods_data.dict())
     await session.execute(stmt)
