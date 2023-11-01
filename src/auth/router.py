@@ -31,3 +31,8 @@ async def login(response: Response, user_data: SUserAuth):
     response.set_cookie('goods_access_token', jwt_token, httponly=True)
 
     return {"access_token": jwt_token, "token_type": "bearer"}
+
+
+@router.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie('goods_access_token')
