@@ -1,5 +1,6 @@
 from sqlalchemy import select
 
+from auth.models import Role
 from database import User, async_session_maker
 
 
@@ -24,3 +25,11 @@ class UserDAO:
             query = select(User).filter_by(id=user_id)
             user = await session.execute(query)
             return user.scalar_one_or_none()
+
+    @classmethod
+    async def find_user_role_name(cls, user_id):
+        async with async_session_maker() as session:
+            query = select(Role.name).join(User).filter(User.id == user_id)
+            result = await session.execute(query)
+            role_name = result.scalar()
+            return role_name
