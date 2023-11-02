@@ -1,9 +1,8 @@
-from fastapi import Request, APIRouter, Depends, HTTPException
+from fastapi import Request, APIRouter, Depends
 
 from fastapi.templating import Jinja2Templates
-from starlette.responses import JSONResponse
 
-from auth.base_config import fastapi_users
+from auth.dependecies import get_current_user
 from auth.models import User
 
 router = APIRouter(
@@ -15,6 +14,6 @@ templates = Jinja2Templates(directory="src/templates")
 
 
 @router.get("/base")
-def get_base_page(request: Request, user: User = Depends(fastapi_users.current_user())):
+def get_base_page(request: Request, user: User = Depends(get_current_user)):
     title = "Базовая страница"
     return templates.TemplateResponse("base.html", {"request": request, "title": title, "user": user})
