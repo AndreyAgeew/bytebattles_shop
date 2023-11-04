@@ -16,6 +16,7 @@ class Goods(Base):
             quantity (Column): Количество доступного товара.
             updated_at (Column): Метка времени обновления товара.
             is_active (Column): Признак допуска на продажу товара.
+            image_url (Column): URL изображения товара
     """
     __tablename__ = "goods"
 
@@ -25,3 +26,4 @@ class Goods(Base):
     quantity = Column(Integer, nullable=False, doc="Количество доступного товара")
     updated_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени обновления товара")
     is_active = Column(Boolean, default=True, doc="Признак допуска на продажу товара")
+    image_url = Column(String, nullable=True, doc="URL изображения товара")
