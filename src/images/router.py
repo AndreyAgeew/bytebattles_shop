@@ -24,7 +24,7 @@ async def add_image_to_goods(goods_id: int, image: UploadFile, user: User = Depe
         f.write(image.file.read())
 
     # Обновите поле image_url товара в базе данных, используя ваш новый метод
-    image_url = f"src/static/img/goods/{image.filename}"
+    image_url = f"/static/img/goods/{image.filename}"
     await GoodsDAO.update_goods_image(session, goods_id, image_url)
     await session.commit()
 
