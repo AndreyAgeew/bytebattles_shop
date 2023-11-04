@@ -8,6 +8,7 @@ from auth.schemas import UserRead, UserCreate
 from auth.router import router as login
 from goods.router import router as goods
 from pages.router import router as pages
+from images.router import router as images
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
@@ -35,3 +36,4 @@ app.include_router(
 app.include_router(login)
 app.include_router(goods)
 app.include_router(pages)
+app.include_router(images)
