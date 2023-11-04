@@ -11,6 +11,12 @@ class GoodsDAO:
         return goods.scalars().all()
 
     @classmethod
+    async def find_active(cls, session):
+        query = select(Goods).filter_by(is_active=True)
+        goods = await session.execute(query)
+        return goods.scalars().all()
+
+    @classmethod
     async def find_by_id(cls, session, goods_id):
         query = select(Goods).filter_by(id=goods_id)
         goods = await session.execute(query)
