@@ -30,3 +30,8 @@ class GoodsDAO:
     async def delete_goods(cls, session, goods_id):
         stmt = delete(Goods).where(Goods.id == goods_id)
         await session.execute(stmt)
+
+    @classmethod
+    async def update_goods_image(cls, session, goods_id, image_url):
+        stmt = update(Goods).where(Goods.id == goods_id).values(image_url=image_url)
+        await session.execute(stmt)
