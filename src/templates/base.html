@@ -1,51 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {{ title }}
     </title>
+
+    <style>
+        body {
+    background-color: rgba(240, 240, 240, 0.8); /* Полупрозрачный цвет фона */
+    background-image: url('/static/img/goods/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed; /* Зафиксированный фон при прокрутке */
+}
+
+    </style>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h4 class="my-0 mr-md-auto font-weight-normal">SkyChimp</h4>
+    <img src="/static/img/goods/logo.jpg " class="my-0 mr-md-auto font-weight-normal"
+         style="width: 150px; height: auto;" alt="Store Logo">
+
     <div class="col-9">
         <nav class="ms-5">
-            <a class="p-2 btn btn-outline-primary" href="/">Главная</a>
-            <a class="p-2 btn btn-outline-primary" href="/clients/">Клиенты</a>
-            <a class="p-2 btn btn-outline-primary" href="/mailing/">Рассылки</a>
-            <a class="p-2 btn btn-outline-primary" href="/delivery_report/">Отчеты о доставке</a>
-            <a class="p-2 btn btn-outline-primary" href="/blog/">Блог</a>
+            <a class="p-2 btn btn-outline-primary btn-lg" style="width: 150px; height: auto;" href="/">Каталог</a>
+            <a class="p-2 btn btn-outline-primary btn-lg" style="width: 150px; height: auto;" href="/">Контакты</a>
         </nav>
     </div>
     <div class="col-2">
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle btn-lg" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                {% if user.is_authenticated %}
-                    {{ user.email }}
+                {% if user %}
+                {{ user.email }}
                 {% else %}
-                    Войти
+                Войти
                 {% endif %}
             </button>
-            {% if user.is_authenticated %}
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="/users/logout">Выйти</a></li>
-                </ul>
+            {% if user %}
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/users/logout">Выйти</a></li>
+            </ul>
             {% else %}
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/users">Войти</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="/users/register">Регистрация</a></li>
-                </ul>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/users">Войти</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/users/register">Регистрация</a></li>
+            </ul>
             {% endif %}
         </div>
     </div>
@@ -54,11 +64,12 @@
 
 {% endblock %}
 
+
 <div class="container">
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                Skychimp
+                BYTEBATTLES
                 <small class="d-block mb-3 text-muted">&copy; 2023</small>
             </div>
             <div class="col-6 col-md">
