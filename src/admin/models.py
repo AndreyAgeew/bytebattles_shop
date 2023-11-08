@@ -1,6 +1,7 @@
 from sqladmin import ModelView
 
 from auth.models import User
+from goods.models import Goods
 
 
 class UserAdmin(ModelView, model=User):
@@ -10,3 +11,10 @@ class UserAdmin(ModelView, model=User):
     name = "Пользователь"
     name_plural = "Пользователи"
     icon = "fa-solid fa-user"
+
+
+class GoodsAdmin(ModelView, model=Goods):
+    column_list = [c.name for c in Goods.__table__.c]
+    name = "Товар"
+    name_plural = "Товары"
+    icon = "fa-solid fa-box"

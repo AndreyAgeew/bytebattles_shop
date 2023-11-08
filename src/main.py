@@ -2,9 +2,8 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from admin.models import UserAdmin
+from admin.models import UserAdmin, GoodsAdmin
 from auth.base_config import fastapi_users
-from auth.models import User
 from auth.schemas import UserRead, UserCreate
 
 from auth.router import router as login
@@ -18,6 +17,8 @@ app = FastAPI()
 admin = Admin(app, engine)
 
 admin.add_view(UserAdmin)
+admin.add_view(GoodsAdmin)
+
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
