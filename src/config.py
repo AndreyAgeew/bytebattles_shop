@@ -10,3 +10,5 @@ DB_PASS = os.getenv('DB_PASS')
 JTWTS_KEY = os.getenv('JTWTS_KEY')
 JWT_KEY = os.getenv('JWT_KEY')
 ALGORITHM_JWT = os.getenv('ALGORITHM_JWT')
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
