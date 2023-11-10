@@ -1,3 +1,5 @@
+from auth.router import pwd_context
+
 goods_data = [
     {'name': 'GRAND THEFT AUTO V: PREMIUM ONLINE EDITION', 'price': 2299, 'quantity': 50, 'is_active': True,
      'image_url': '/static/img/goods/gta.jpg'},
@@ -22,14 +24,14 @@ roles_data = [
 ]
 users_data = [
     {'name': 'User', 'surname': 'UserSurname', 'phone_number': '+71111111111', 'email': 'user@example.com',
-     'hashed_password': 'Userpassword1!', 'role_id': 1, 'is_active': True, 'is_superuser': False,
+     'hashed_password': pwd_context.hash('Userpassword1!'), 'role_id': 1, 'is_active': True, 'is_superuser': False,
      'is_verified': True},
     {'name': 'Moderator', 'surname': 'ModeratorSurname', 'phone_number': '+72222222222',
-     'email': 'moderator@example.com', 'hashed_password': 'Moderatorpassword1!',
+     'email': 'moderator@example.com', 'hashed_password': pwd_context.hash('Moderatorpassword1!'),
      'role_id': 2,
      'is_active': True, 'is_superuser': False, 'is_verified': True},
     {'name': 'Admin', 'surname': 'AdminSurname', 'phone_number': '+73333333333',
      'email': 'admin@example.com',
-     'hashed_password': 'Admin1password1!', 'role_id': 3, 'is_active': True, 'is_superuser': True,
+     'hashed_password': pwd_context.hash('Admin1password1!'), 'role_id': 3, 'is_active': True, 'is_superuser': True,
      'is_verified': True},
 ]
