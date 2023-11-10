@@ -36,20 +36,14 @@ class UserDAO:
 
     @classmethod
     async def add_all_users(cls, session, users_data):
-        try:
-            users = User(**users_data)
-            async with session.begin():
-                session.add(users)
-            await session.commit()
-        except Exception as e:
-            print(f"Произошла ошибка: {e}")
+        users = User(**users_data)
+        async with session.begin():
+            session.add(users)
+        await session.commit()
 
     @classmethod
     async def add_all_roles(cls, session, roles_data):
-        try:
-            roles = Role(**roles_data)
-            async with session.begin():
-                session.add(roles)
-            await session.commit()
-        except Exception as e:
-            print(f"Произошла ошибка: {e}")
+        roles = Role(**roles_data)
+        async with session.begin():
+            session.add(roles)
+        await session.commit()

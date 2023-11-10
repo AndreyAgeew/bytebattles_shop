@@ -29,13 +29,10 @@ class GoodsDAO:
 
     @classmethod
     async def add_all_goods(cls, session, goods_data):
-        try:
-            goods = Goods(**goods_data)
-            async with session.begin():
-                session.add(goods)
-            await session.commit()
-        except Exception as e:
-            print(f"Произошла ошибка: {e}")
+        goods = Goods(**goods_data)
+        async with session.begin():
+            session.add(goods)
+        await session.commit()
 
     @classmethod
     async def update_goods(cls, session, goods_id, goods_data):
@@ -51,3 +48,12 @@ class GoodsDAO:
     async def update_goods_image(cls, session, goods_id, image_url):
         stmt = update(Goods).where(Goods.id == goods_id).values(image_url=image_url)
         await session.execute(stmt)
+
+    @classmethod
+    async def clear_goods_table(cls, session):
+        try:
+            stmt = delete(Goods)
+            await session.execute(stmt)
+            print(f"Таблица Goods очищена!")
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
