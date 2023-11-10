@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, update, delete
+from sqlalchemy import select, insert, update, delete, text
 
 from goods.models import Goods
 
@@ -54,6 +54,7 @@ class GoodsDAO:
         try:
             stmt = delete(Goods)
             await session.execute(stmt)
+            await session.execute(text("ALTER SEQUENCE goods_id_seq RESTART WITH 1"))
             print(f"Таблица Goods очищена!")
         except Exception as e:
             print(f"Произошла ошибка: {e}")

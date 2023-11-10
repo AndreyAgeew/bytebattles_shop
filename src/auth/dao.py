@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, text
 
 from auth.models import Role, User
 from database import async_session_maker
@@ -53,6 +53,7 @@ class UserDAO:
         try:
             stmt = delete(User)
             await session.execute(stmt)
+            await session.execute(text("ALTER SEQUENCE user_id_seq RESTART WITH 1"))
             print(f"Таблица User очищена!")
         except Exception as e:
             print(f"Произошла ошибка: {e}")
@@ -62,6 +63,7 @@ class UserDAO:
         try:
             stmt = delete(Role)
             await session.execute(stmt)
+            await session.execute(text("ALTER SEQUENCE role_id_seq RESTART WITH 1"))
             print(f"Таблица Role очищена!")
         except Exception as e:
             print(f"Произошла ошибка: {e}")
