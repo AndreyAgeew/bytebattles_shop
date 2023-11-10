@@ -28,6 +28,16 @@ class GoodsDAO:
         await session.execute(stmt)
 
     @classmethod
+    async def add_all_goods(cls, session, goods_data):
+        try:
+            goods = Goods(**goods_data)
+            async with session.begin():
+                session.add(goods)
+            await session.commit()
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
+
+    @classmethod
     async def update_goods(cls, session, goods_id, goods_data):
         stmt = update(Goods).where(Goods.id == goods_id).values(**goods_data)
         await session.execute(stmt)
