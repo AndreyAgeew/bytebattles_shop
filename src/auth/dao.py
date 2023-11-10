@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
-from auth.models import Role
-from database import User, async_session_maker
+from auth.models import Role, User
+from database import async_session_maker
 
 
 class UserDAO:
@@ -33,3 +33,23 @@ class UserDAO:
             result = await session.execute(query)
             role_name = result.scalar()
             return role_name
+
+    @classmethod
+    async def add_all_users(cls, session, users_data):
+        try:
+            users = User(**users_data)
+            async with session.begin():
+                session.add(users)
+            await session.commit()
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
+
+    @classmethod
+    async def add_all_roles(cls, session, roles_data):
+        try:
+            roles = Role(**roles_data)
+            async with session.begin():
+                session.add(roles)
+            await session.commit()
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
