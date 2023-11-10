@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 from auth.models import Role, User
 from database import async_session_maker
@@ -47,3 +47,21 @@ class UserDAO:
         async with session.begin():
             session.add(roles)
         await session.commit()
+
+    @classmethod
+    async def clear_user_table(cls, session):
+        try:
+            stmt = delete(User)
+            await session.execute(stmt)
+            print(f"Таблица User очищена!")
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
+
+    @classmethod
+    async def clear_role_table(cls, session):
+        try:
+            stmt = delete(Role)
+            await session.execute(stmt)
+            print(f"Таблица Role очищена!")
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
