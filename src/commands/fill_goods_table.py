@@ -27,12 +27,14 @@ async def main():
             await UserDAO.clear_user_table(session)
             await session.commit()
 
-            for goods, role, user in zip(goods_data, roles_data, users_data):
-                await GoodsDAO.add_all_goods(session, goods)
+            for role, user in zip(roles_data, users_data):
                 await UserDAO.add_all_roles(session, role)
                 await UserDAO.add_all_users(session, user)
+            for goods in goods_data:
+                await GoodsDAO.add_all_goods(session, goods)
             await session.commit()
             click.echo("Таблицы успешно заполнены.")
+
     except Exception as e:
         click.echo(f"Произошла ошибка: {e}")
 
