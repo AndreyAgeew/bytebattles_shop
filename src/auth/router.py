@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Response, HTTPException
 from passlib.context import CryptContext
 
-from src.auth.base_config import create_access_token
-from src.auth.dao import UserDAO
-from src.auth.schemas import SUserAuth
+from auth.base_config import create_access_token
+from auth.dao import UserDAO
+from auth.schemas import SUserAuth
 
 # Create an instance of the password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
