@@ -4,7 +4,10 @@ import pytest
 from auth.dao import UserDAO
 from commands.data import goods_data, roles_data, users_data
 from goods.dao import GoodsDAO
+from main import app as fastapi_app
 from src.database import async_session_maker, get_async_session
+
+from httpx import AsyncClient
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -31,3 +34,9 @@ def event_loop():
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope='function')
+async def ac():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        yield ac
