@@ -23,7 +23,7 @@ class UserCreate(schemas.BaseUserCreate):
     confirm_password: str
     name: str
     surname: str
-    patronymic: str
+    patronymic: Optional[str]
     phone_number: str
     role_id: int
     is_active: Optional[bool] = True

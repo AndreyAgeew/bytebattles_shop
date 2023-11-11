@@ -15,7 +15,9 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
-    def __validate_password(self, password: str):
+    def __validate_password(self, password: str, confirm_password: str):
+        if password != confirm_password:
+            raise PasswordValidationError("Password and confirm_password do not match")
         if len(password) < 8:
             raise PasswordValidationError("Password is too short")
         if not any(c.isalpha() and c.isascii() for c in password):
@@ -51,7 +53,8 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             else user_create.create_update_dict_superuser()
         )
         password = user_dict.pop("password")
-        self.__validate_password(password)
+        confirm_password = user_dict.pop("confirm_password")
+        self.__validate_password(password, confirm_password)
         self.__validate_phone(user_dict['phone_number'])
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict["role_id"] = 1
