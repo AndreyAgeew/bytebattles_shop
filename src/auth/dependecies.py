@@ -35,6 +35,13 @@ async def get_current_user(token: str = Depends(get_token)):
 
 async def get_current_admin_user(current_user: User = Depends(get_current_user)):
     role_name = await UserDAO.find_user_role_name(current_user.id)
+    if role_name != 'admin':
+        raise HTTPException(status_code=403, detail="You do not have sufficient permissions to perform this operation.")
+    return current_user
+
+
+async def get_current_moderator_or_admin_user(current_user: User = Depends(get_current_user)):
+    role_name = await UserDAO.find_user_role_name(current_user.id)
     if role_name == 'user':
         raise HTTPException(status_code=403, detail="You do not have sufficient permissions to perform this operation.")
     return current_user
