@@ -42,12 +42,37 @@ async def ac():
         yield ac
 
 
-@pytest.fixture(scope='session')
-async def autheniticated_ac():
+@pytest.fixture(scope='function')
+async def autheniticated_user_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        ac.cookies.delete("goods_access_token")
         await ac.post("/auth/login", json={
             "email_or_phone": "user@example.com",
             "password": "Userpassword1!"
+        })
+        assert ac.cookies["goods_access_token"]
+        yield ac
+
+
+@pytest.fixture(scope='function')
+async def autheniticated_admin_ac():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        ac.cookies.delete("goods_access_token")
+        await ac.post("/auth/login", json={
+            "email_or_phone": "admin@example.com",
+            "password": "Admin1password1!"
+        })
+        assert ac.cookies["goods_access_token"]
+        yield ac
+
+
+@pytest.fixture(scope='function')
+async def autheniticated_moderator_ac():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        ac.cookies.delete("goods_access_token")
+        await ac.post("/auth/login", json={
+            "email_or_phone": "moderator@example.com",
+            "password": "Moderatorpassword1!"
         })
         assert ac.cookies["goods_access_token"]
         yield ac
