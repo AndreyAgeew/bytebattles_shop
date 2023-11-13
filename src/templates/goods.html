@@ -31,6 +31,27 @@
         <div class="col-3"></div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row text-center">
+        {% for game in goods %}
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <img src="{{game.image_url}}" alt="" style="max-width: 75%;">
+                </div>
+                <div class="row centered">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-success w-50"> В корзину
+                    </button>
+                    <button type="button" class="btn btn-lg btn-block btn-outline-danger w-50"
+                            data-bs-toggle="collapse" data-bs-target="#{{ game.name }}"
+                            aria-expanded="false"
+                            aria-controls="collapseExample">Ознакомиться
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

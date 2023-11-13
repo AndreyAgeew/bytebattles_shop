@@ -10,7 +10,7 @@ goods_data = [
     {'name': 'HEARTS OF IRON IV: CADET EDITION', 'price': 499, 'quantity': 200, 'is_active': True,
      'image_url': '/static/img/goods/HOI4.jpg'},
     {'name': 'SESSION: SKATE SIM ABANDONNED MALL', 'price': 320, 'quantity': 300, 'is_active': True,
-     'image_url': '/static/img/goods/SesSAMjpg'},
+     'image_url': '/static/img/goods/SesSAM.jpg'},
     {'name': 'ELDEN RING', 'price': 2799, 'quantity': 350, 'is_active': True,
      'image_url': '/static/img/goods/ER.jpg'},
     {'name': 'CITIES: SKYLINES II - ULTIMATE EDITION', 'price': 3799, 'quantity': 400, 'is_active': True,
