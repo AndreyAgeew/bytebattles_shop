@@ -44,8 +44,13 @@ class ShoppingCart:
             item (Union[Goods, List[Goods]]): Товар или список товаров для добавления в корзину.
         """
         if isinstance(item, list):
+            for i in item:
+                if i in self.items:
+                    raise ValueError(f"Товар {i} уже есть в корзине.")
             self.items.extend(item)
         else:
+            if item in self.items:
+                raise ValueError(f"Товар {item} уже есть в корзине.")
             self.items.append(item)
 
     def remove_item(self, item: Goods) -> None:
@@ -55,8 +60,9 @@ class ShoppingCart:
         Parameters:
             item (Goods): Товар для удаления из корзины.
         """
-        if item in self.items:
-            self.items.remove(item)
+        if item not in self.items:
+            raise ValueError(f"Товар {item} не найден в корзине.")
+        self.items.remove(item)
 
     def clear_cart(self) -> None:
         """
