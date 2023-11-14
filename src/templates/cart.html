@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="/static/js/cart.js"></script>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col"></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for game in cart_items %}
+    <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ game.name }}</td>
+        <td>{{ game.price }}</td>
+        <td>
+            <button type="button" class="btn btn-danger" onclick="removeFromCart('{{ game.id }}')">
+                Remove
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>Total Price: {{ total_price }}</p>
+
+
+{% endblock %}
