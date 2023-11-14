@@ -28,17 +28,21 @@ class ShoppingCart:
     def __init__(self):
         self.items: List[Goods] = []
 
+    def __iter__(self):
+        # Возвращаем итератор по элементам корзины
+        return iter(self.items)
+
     @overload
-    def add_item(self, item: Goods) -> None:
+    async def add_item(self, item: Goods) -> None:
         ...
 
     @overload
-    def add_item(self, item: List[Goods]) -> None:
+    async def add_item(self, item: List[Goods]) -> None:
         ...
 
-    def add_item(self, item: Union[Goods, List[Goods]]) -> None:
+    async def add_item(self, item: Union[Goods, List[Goods]]) -> None:
         """
-        Добавляет товар(ы) в корзину.
+        Асинхронно добавляет товар(ы) в корзину.
 
         Parameters:
             item (Union[Goods, List[Goods]]): Товар или список товаров для добавления в корзину.
@@ -53,7 +57,7 @@ class ShoppingCart:
                 raise ValueError(f"Товар {item} уже есть в корзине.")
             self.items.append(item)
 
-    def remove_item(self, item: Goods) -> None:
+    async def remove_item(self, item: Goods) -> None:
         """
         Удаляет товар из корзины.
 
@@ -64,13 +68,13 @@ class ShoppingCart:
             raise ValueError(f"Товар {item} не найден в корзине.")
         self.items.remove(item)
 
-    def clear_cart(self) -> None:
+    async def clear_cart(self) -> None:
         """
         Полностью очищает корзину.
         """
         self.items = []
 
-    def get_total_price(self) -> Optional[float]:
+    async def get_total_price(self) -> Optional[float]:
         """
         Возвращает общую стоимость товаров в корзине.
 
