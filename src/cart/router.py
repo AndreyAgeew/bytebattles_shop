@@ -22,6 +22,16 @@ async def add_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_s
     return {"status": "success"}
 
 
+@router.get("/remove_to_cart/{goods_id}")
+async def remove_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_session),
+                         cart: ShoppingCart = Depends(get_current_cart)):
+    item = await GoodsDAO.find_by_id(session, goods_id)
+    if item:
+        await cart.remove_item(item)
+
+    return {"status": "success"}
+
+
 @router.get("/view_cart")
 async def view_cart(cart: ShoppingCart = Depends(get_current_cart)):
     cart_items = [{"name": item.name, "price": item.price} for item in cart]
