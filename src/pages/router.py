@@ -61,7 +61,7 @@ async def login(response: Response, user_data: SUserAuth):
 
 @router.get("/cart")
 async def view_cart(request: Request, cart: ShoppingCart = Depends(get_current_cart)):
-    cart_items = [{"name": item.name, "price": item.price} for item in cart]
+    cart_items = [{"name": item.name, "price": item.price, "id": item.id} for item in cart]
     total_price = await cart.get_total_price()
     return templates.TemplateResponse("cart.html",
                                       {"request": request, "cart_items": cart_items, "total_price": total_price})
