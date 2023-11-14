@@ -27,3 +27,9 @@ class Goods(Base):
     updated_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени обновления товара")
     is_active = Column(Boolean, default=True, doc="Признак допуска на продажу товара")
     image_url = Column(String, nullable=True, doc="URL изображения товара")
+
+    def __eq__(self, other):
+        return isinstance(other, Goods) and self.id == other.id
+
+    def __str__(self):
+        return self.name
