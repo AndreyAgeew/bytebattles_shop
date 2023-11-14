@@ -9,6 +9,8 @@ from auth.dependecies import get_current_user
 from auth.models import User
 from auth.router import pwd_context
 from auth.schemas import SUserAuth
+from cart.dependecies import get_current_cart
+from cart.shopping_cart import ShoppingCart
 from goods.dependecies import get_active_goods
 from goods.models import Goods
 
@@ -55,3 +57,11 @@ async def login(response: Response, user_data: SUserAuth):
     response.set_cookie('goods_access_token', jwt_token, httponly=True)
 
     return {"access_token": jwt_token, "token_type": "bearer"}
+
+
+@router.get("/cart")
+async def view_cart(request: Request, cart: ShoppingCart = Depends(get_current_cart)):
+    cart_items = [{"name": item.name, "price": item.price} for item in cart]
+    total_price = await cart.get_total_price()
+    return templates.TemplateResponse("cart.html",
+                                      {"request": request, "cart_items": cart_items, "total_price": total_price})
