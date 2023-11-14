@@ -11,6 +11,7 @@ from database import engine
 from goods.router import router as goods
 from pages.router import router as pages
 from images.router import router as images
+from cart.router import router as cart
 from sqladmin import Admin
 
 app = FastAPI()
@@ -45,3 +46,4 @@ app.include_router(login)
 app.include_router(goods)
 app.include_router(pages)
 app.include_router(images)
+app.include_router(cart)

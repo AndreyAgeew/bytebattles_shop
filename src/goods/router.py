@@ -7,8 +7,6 @@ from auth.models import User
 from database import get_async_session
 from goods.dao import GoodsDAO
 from goods.schemas import GoodsCreate, GoodsUpdate
-from goods.shopping_cart import ShoppingCart
-from goods.dependecies import get_current_cart
 
 router = APIRouter(
     prefix="/goods",
@@ -61,18 +59,3 @@ async def delete_goods(goods_id: int = Path(..., title="Goods ID"), user: User =
     await GoodsDAO.delete_goods(session, goods_id)
     await session.commit()
     return {"status": "success"}
-
-
-@router.get("/add_to_cart/{goods_id}")
-async def add_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_session),
-                      cart: ShoppingCart = Depends(get_current_cart)):
-    item = await GoodsDAO.find_by_id(session, goods_id)
-    if item:
-        cart.add_item(item)
-    return {"status": "success"}
-
-
-@router.get("/view_cart")
-async def view_cart(cart: ShoppingCart = Depends(get_current_cart)):
-    total_price = cart.get_total_price()
-    return {"cart_items": cart.items, "total_price": total_price}
