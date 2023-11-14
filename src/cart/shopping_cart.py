@@ -83,5 +83,5 @@ class ShoppingCart:
         """
         if not self.items:
             return None
-        total_price = sum(item.price * item.quantity for item in self.items)
+        total_price = sum(item.price for item in self.items)
         return total_price
