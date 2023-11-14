@@ -9,7 +9,6 @@ user_carts = {}
 
 
 async def get_current_cart(user: User = Depends(get_current_user)):
-    print("Getting current cart for user:", user.id)
     if user.id not in user_carts:
         user_carts[user.id] = ShoppingCart()
     return user_carts[user.id]
