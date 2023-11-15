@@ -8,6 +8,7 @@ from alembic import context
 from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
 from src.auth.models import Base as auth_Base
 from src.goods.models import Base as goods_Base
+from src.order.models import Base as order_Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -28,7 +29,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [auth_Base.metadata, goods_Base.metadata]
+target_metadata = [auth_Base.metadata, goods_Base.metadata, order_Base.metadata]
 
 
 # other values from the config, defined by the needs of env.py,
