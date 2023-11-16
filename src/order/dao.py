@@ -1,6 +1,5 @@
-from sqlalchemy import select, insert, update, delete, text
+from sqlalchemy import select, insert, update, delete, text, desc
 from sqlalchemy.exc import NoResultFound
-
 
 from order.models import Order
 
@@ -25,3 +24,10 @@ class OrderDAO:
     async def add_order(cls, session, order_data):
         stmt = insert(Order).values(**order_data)
         await session.execute(stmt)
+
+    @classmethod
+    async def get_last_order_id(cls, session):
+        query = select(Order.id).order_by(desc(Order.id)).limit(1)
+        result_proxy = await session.execute(query)
+        last_order_id = result_proxy.scalar_one_or_none()
+        return last_order_id
