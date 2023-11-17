@@ -40,7 +40,8 @@
                     <img src="{{game.image_url}}" alt="" style="max-width: 75%;">
                 </div>
                 <div class="row centered">
-                    <button type="button" class="btn btn-lg btn-block btn-outline-success w-50"> В корзину
+                    <button id="addToCartButton" type="button" class="btn btn-lg btn-block btn-outline-success w-50"
+                            onclick="addToCart('{{ game.id }}')"> В корзину
                     </button>
                     <button type="button" class="btn btn-lg btn-block btn-outline-danger w-50"
                             data-bs-toggle="collapse" data-bs-target="#{{ game.name }}"

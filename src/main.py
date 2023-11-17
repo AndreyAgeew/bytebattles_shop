@@ -69,10 +69,10 @@ async def webhook_received(request: Request, stripe_signature: str = Header(None
 
     event_type = event['type']
     if event_type == 'checkout.session.completed':
-        print(f'checkout session completed {event_data}')
-    elif event_type == 'invoice.paid':
-        print('invoice paid')
+        pass
     elif event_type == 'invoice.payment_failed':
-        print('invoice payment failed')
+        pass
+    elif event_type == 'price.created':
+        pass
 
     return {"status": "success"}
