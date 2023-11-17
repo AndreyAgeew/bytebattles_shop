@@ -46,7 +46,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False, doc="Хэш пароля пользователя.")
     registered_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени регистрации пользователя.")
     role_id = Column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),
-                     doc="Идентификатор связанной с пользователем роли.")
+                     doc="Идентификатор связанной с пользователем роли.", nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
     is_verified = Column(Boolean, default=False, nullable=False)

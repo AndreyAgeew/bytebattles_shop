@@ -1,16 +1,17 @@
 from fastapi import Request, APIRouter, Depends, Response, HTTPException
-from fastapi.responses import RedirectResponse
 
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.base_config import create_access_token
 from auth.dao import UserDAO
 from auth.dependecies import get_current_user
 from auth.models import User
 from auth.router import pwd_context
-from auth.schemas import SUserAuth
+from auth.schemas import SUserAuth, UserCreate
 from cart.dependecies import get_current_cart
 from cart.shopping_cart import ShoppingCart
+from database import get_async_session
 from goods.dependecies import get_active_goods
 from goods.models import Goods
 
@@ -59,9 +60,29 @@ async def login(response: Response, user_data: SUserAuth):
     return {"access_token": jwt_token, "token_type": "bearer"}
 
 
+@router.get("/register")
+async def register_page(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+@router.post("/register")
+async def register_user(
+        user_data: UserCreate,
+        session: AsyncSession = Depends(get_async_session)
+):
+    try:
+        await UserDAO.create_user(session, user_data.dict())
+        return {"status": "success", "message": "User registered successfully"}
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
 @router.get("/cart")
-async def view_cart(request: Request, cart: ShoppingCart = Depends(get_current_cart)):
+async def view_cart(request: Request, user: User = Depends(get_current_user),
+                    cart: ShoppingCart = Depends(get_current_cart)):
     cart_items = [{"name": item.name, "price": item.price, "id": item.id} for item in cart]
     total_price = await cart.get_total_price()
     return templates.TemplateResponse("cart.html",
-                                      {"request": request, "cart_items": cart_items, "total_price": total_price})
+                                      {"request": request, "cart_items": cart_items, "total_price": total_price,
+                                       "user": user})

@@ -26,7 +26,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     phone_number: Mapped[str] = mapped_column(String, nullable=False, unique=True, doc="Номер телефона пользователя.")
     registered_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow(),
                                                     doc="Метка времени регистрации пользователя.")
-    role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id, ondelete='CASCADE'),
+    role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id, ondelete='CASCADE'), nullable=True,
                                          doc="Идентификатор связанной с пользователем роли.")
     hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False, doc="Хэш пароля пользователя.")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, doc="Активен ли пользователь.")
@@ -43,5 +43,3 @@ async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
-
-
