@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, update, delete, text, desc
+from sqlalchemy import select, insert, delete, text, desc
 from sqlalchemy.exc import NoResultFound
 
 from order.models import Order
@@ -31,3 +31,13 @@ class OrderDAO:
         result_proxy = await session.execute(query)
         last_order_id = result_proxy.scalar_one_or_none()
         return last_order_id
+
+    @classmethod
+    async def clear_order_table(cls, session):
+        try:
+            stmt = delete(Order)
+            await session.execute(stmt)
+            await session.execute(text("ALTER SEQUENCE order_id_seq RESTART WITH 1"))
+            print(f"Таблица Order очищена!")
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")

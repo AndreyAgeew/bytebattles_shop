@@ -10,6 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(current_file))
 sys.path.insert(0, BASE_DIR)
 from commands.data import goods_data, roles_data, users_data
 from database import get_async_session
+from order.dao import OrderDAO
 from goods.dao import GoodsDAO
 from auth.dao import UserDAO
 
@@ -21,6 +22,8 @@ async def main():
     try:
         async for session in get_async_session():
             await GoodsDAO.clear_goods_table(session)
+            await session.commit()
+            await OrderDAO.clear_order_table(session)
             await session.commit()
             await UserDAO.clear_role_table(session)
             await session.commit()
