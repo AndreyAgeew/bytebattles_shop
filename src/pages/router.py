@@ -31,9 +31,9 @@ def get_base_page(request: Request, user: User = Depends(get_current_user)):
 
 @router.get("/goods")
 def get_goods_page(request: Request, goods: Goods = Depends(get_active_goods),
-                   user: User = Depends(get_current_user)):
+                   user: User = Depends(get_current_user), cart: ShoppingCart = Depends(get_current_cart)):
     title = "Каталог"
-    return templates.TemplateResponse("goods.html", {"request": request, "title": title, "goods": goods, "user": user})
+    return templates.TemplateResponse("goods.html", {"request": request, "title": title, "goods": goods, "user": user, "cart":cart})
 
 
 @router.get("/login")

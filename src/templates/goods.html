@@ -40,9 +40,15 @@
                     <img src="{{game.image_url}}" alt="" style="max-width: 75%;">
                 </div>
                 <div class="row centered">
+                    {% if game not in cart %}
                     <button id="addToCartButton" type="button" class="btn btn-lg btn-block btn-outline-success w-50"
                             onclick="addToCart('{{ game.id }}')"> В корзину
                     </button>
+                    {% else %}
+                    <button id="removeFromCartButton" type="button" class="btn btn-lg btn-block btn-outline-danger w-50"
+                            onclick="removeFromCart('{{ game.id }}')"> Из корзины
+                    </button>
+                    {% endif %}
                     <button type="button" class="btn btn-lg btn-block btn-outline-danger w-50"
                             data-bs-toggle="collapse" data-bs-target="#{{ game.name }}"
                             aria-expanded="false"
@@ -54,5 +60,4 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
