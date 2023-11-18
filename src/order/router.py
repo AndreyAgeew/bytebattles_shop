@@ -20,8 +20,6 @@ async def create_order(
         user: User = Depends(get_current_user),
         session: AsyncSession = Depends(get_async_session)):
     try:
-        # ваш код для обработки данных и создания заказа
-
         # Получаем текущую корзину пользователя
         current_cart = await get_current_cart(user)
 
