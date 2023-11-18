@@ -27,7 +27,7 @@ class Goods(Base):
     __tablename__ = "goods"
 
     id = Column(Integer, primary_key=True, doc="Уникальный идентификатор товара.")
-    name = Column(String, nullable=False, doc="Название товара")
+    name = Column(String, nullable=False, unique=True, doc="Название товара")
     price = Column(DECIMAL, nullable=False, doc="Цена за единицу товара")
     quantity = Column(Integer, nullable=False, doc="Количество доступного товара")
     updated_at = Column(TIMESTAMP, default=datetime.utcnow(), doc="Метка времени обновления товара")
