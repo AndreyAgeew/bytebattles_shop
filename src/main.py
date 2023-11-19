@@ -1,21 +1,31 @@
+from datetime import datetime
 import stripe
-from fastapi import FastAPI, Request, Header
+
+from fastapi import FastAPI, Request, Header, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from admin.models import UserAdmin, GoodsAdmin
+
 from auth.base_config import fastapi_users
 from auth.schemas import UserRead, UserCreate
 
-from auth.router import router as login
+
 from config import STRIPE_WEBHOOK_SECRET
-from database import engine
+from database import engine, get_async_session
+
+from goods.dao import GoodsDAO
+from order.dao import OrderDAO
+
+from auth.router import router as login
 from goods.router import router as goods
 from pages.router import router as pages
 from images.router import router as images
 from cart.router import router as cart
 from order.router import router as order
-from sqladmin import Admin
+
 
 app = FastAPI()
 admin = Admin(app, engine)
@@ -54,7 +64,8 @@ app.include_router(order)
 
 
 @app.post("/webhook")
-async def webhook_received(request: Request, stripe_signature: str = Header(None)):
+async def webhook_received(request: Request, stripe_signature: str = Header(None),
+                           session: AsyncSession = Depends(get_async_session)):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
     try:
@@ -66,13 +77,18 @@ async def webhook_received(request: Request, stripe_signature: str = Header(None
         event_data = event['data']
     except Exception as e:
         return {"error": str(e)}
-
+    order_id = await OrderDAO.get_last_order_id(session=session)
     event_type = event['type']
-    if event_type == 'checkout.session.completed':
-        pass
-    elif event_type == 'invoice.payment_failed':
-        pass
-    elif event_type == 'price.created':
-        pass
+    if event_type == 'product.created':
+        print('product.created')
+    elif event_type == 'checkout.session.completed':
+        order = await OrderDAO.find_by_id(session=session, order_id=order_id)
+        games = [await GoodsDAO.find_by_id(session=session, goods_id=item['id']) for item in order.basket_history]
+        for game in games:
+            game.quantity -= 1
+            game.updated_at = datetime.utcnow()
+        order.status = 1
+        await session.commit()
+        print('checkout session completed')
 
     return {"status": "success"}
