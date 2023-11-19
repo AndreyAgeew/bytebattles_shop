@@ -8,9 +8,16 @@ from config import JWT_KEY, ALGORITHM_JWT
 
 
 def get_token(request: Request):
+    path = request.url.path
     token = request.cookies.get("goods_access_token")
     if not token:
-        raise HTTPException(status_code=401, detail="Access token is missing. You are not authenticated.")
+        # Если токен отсутствует, делаем перенаправление для сайта
+        if path.startswith("/pages"):
+            redirect_url = "/pages/login"
+            raise HTTPException(status_code=307, detail=f"Redirect to {redirect_url}",
+                                headers={"Location": redirect_url})
+        else:
+            raise HTTPException(status_code=401, detail="Access token is missing. You are not authenticated.")
     return token
 
 
