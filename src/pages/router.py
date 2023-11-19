@@ -14,6 +14,8 @@ from cart.shopping_cart import ShoppingCart
 from database import get_async_session
 from goods.dependecies import get_active_goods
 from goods.models import Goods
+from order.dependecies import get_current_orders
+from order.models import Order
 
 router = APIRouter(
     prefix="/pages",
@@ -33,7 +35,8 @@ def get_base_page(request: Request, user: User = Depends(get_current_user)):
 def get_goods_page(request: Request, goods: Goods = Depends(get_active_goods),
                    user: User = Depends(get_current_user), cart: ShoppingCart = Depends(get_current_cart)):
     title = "Каталог"
-    return templates.TemplateResponse("goods.html", {"request": request, "title": title, "goods": goods, "user": user, "cart":cart})
+    return templates.TemplateResponse("goods.html",
+                                      {"request": request, "title": title, "goods": goods, "user": user, "cart": cart})
 
 
 @router.get("/login")
@@ -86,3 +89,10 @@ async def view_cart(request: Request, user: User = Depends(get_current_user),
     return templates.TemplateResponse("cart.html",
                                       {"request": request, "cart_items": cart_items, "total_price": total_price,
                                        "user": user})
+
+
+@router.get("/orders")
+async def view_orders(request: Request, user: User = Depends(get_current_user),
+                      orders: Order = Depends(get_current_orders)):
+    return templates.TemplateResponse("orders.html",
+                                      {"request": request, "orders": orders, "user": user})
