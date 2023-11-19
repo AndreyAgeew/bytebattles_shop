@@ -24,8 +24,11 @@
     <script src="/static/js/cart/ramove_goods.js"></script>
     <script src="/static/js/cart/add_goods.js"></script>
     <script src="/static/js/cart/payment.js"></script>
+
+
 </head>
 <body>
+
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <img src="/static/img/goods/logo.jpg " class="my-0 mr-md-auto font-weight-normal"
          style="width: 150px; height: auto;" alt="Store Logo">
@@ -42,15 +45,10 @@
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle btn-lg" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                {% if user %}
                 {{ user.email }}
-                {% else %}
-                Войти
-                {% endif %}
             </button>
-            {% if user %}
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>
+                <li><a class="dropdown-item" href="/users/profile">Заказы</a></li>
                 <li>
                 <li><a class="dropdown-item" href="/pages/cart">Корзина</a></li>
                 <li>
@@ -58,15 +56,6 @@
                 </li>
                 <li><a class="dropdown-item" href="/auth/logout">Выйти</a></li>
             </ul>
-            {% else %}
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/users">Войти</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/users/register">Регистрация</a></li>
-            </ul>
-            {% endif %}
         </div>
     </div>
 </div>
