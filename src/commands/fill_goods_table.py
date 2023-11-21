@@ -1,6 +1,7 @@
+import asyncio
 import os
 import sys
-import asyncio
+
 import click
 
 current_file = os.path.abspath(__file__)
@@ -8,11 +9,11 @@ current_file = os.path.abspath(__file__)
 BASE_DIR = os.path.dirname(os.path.dirname(current_file))
 
 sys.path.insert(0, BASE_DIR)
+from auth.dao import UserDAO
 from commands.data import goods_data, roles_data, users_data
 from database import get_async_session
-from order.dao import OrderDAO
 from goods.dao import GoodsDAO
-from auth.dao import UserDAO
+from order.dao import OrderDAO
 
 src_dir = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.append(src_dir)

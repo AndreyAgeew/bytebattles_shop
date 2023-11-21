@@ -1,11 +1,10 @@
 from passlib.context import CryptContext
-from sqlalchemy import select, delete, text
+from sqlalchemy import delete, select, text
+from sqlalchemy.exc import IntegrityError
 
 from auth.models import Role, User
 from auth.validaters import validate_password, validate_phone
-
 from database import async_session_maker
-from sqlalchemy.exc import IntegrityError
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

@@ -1,5 +1,6 @@
 import stripe
-from config import STRIPE_API_KEY, DOMAIN_NAME
+
+from config import DOMAIN_NAME, STRIPE_API_KEY
 
 
 def get_stripe_session(goods, user):

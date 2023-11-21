@@ -1,4 +1,4 @@
-from typing import List, Union, Optional, overload
+from typing import List, Optional, Union, overload
 
 from goods.models import Goods
 

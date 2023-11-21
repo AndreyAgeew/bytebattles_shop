@@ -1,5 +1,4 @@
-from fastapi import Request, APIRouter, Depends, Response, HTTPException
-
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 

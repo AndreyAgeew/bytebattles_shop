@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.dependecies import get_current_admin_user

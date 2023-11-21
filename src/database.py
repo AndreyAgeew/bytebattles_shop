@@ -2,13 +2,13 @@ from datetime import datetime
 from typing import AsyncGenerator
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
-from sqlalchemy import String, Boolean, Integer, ForeignKey, TIMESTAMP
+from sqlalchemy import TIMESTAMP, Boolean, ForeignKey, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import sessionmaker, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, sessionmaker
 
 from auth.models import Role
-from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 

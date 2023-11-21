@@ -1,31 +1,25 @@
 from datetime import datetime
-import stripe
 
-from fastapi import FastAPI, Request, Header, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+import stripe
+from fastapi import Depends, FastAPI, Header, Request
 from sqladmin import Admin
+from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from admin.models import UserAdmin, GoodsAdmin
-
+from admin.models import GoodsAdmin, UserAdmin
 from auth.base_config import fastapi_users
-from auth.schemas import UserRead, UserCreate
-
-
+from auth.router import router as login
+from auth.schemas import UserCreate, UserRead
+from cart.router import router as cart
 from config import STRIPE_WEBHOOK_SECRET
 from database import engine, get_async_session
-
 from goods.dao import GoodsDAO
-from order.dao import OrderDAO
-
-from auth.router import router as login
 from goods.router import router as goods
-from pages.router import router as pages
 from images.router import router as images
-from cart.router import router as cart
+from order.dao import OrderDAO
 from order.router import router as order
-
+from pages.router import router as pages
 
 app = FastAPI()
 admin = Admin(app, engine)

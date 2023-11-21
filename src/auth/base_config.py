@@ -2,13 +2,15 @@ from datetime import datetime, timedelta
 
 import jwt
 from fastapi_users import FastAPIUsers
-from fastapi_users.authentication import CookieTransport, AuthenticationBackend
-
-from fastapi_users.authentication import JWTStrategy
+from fastapi_users.authentication import (
+    AuthenticationBackend,
+    CookieTransport,
+    JWTStrategy,
+)
 
 from auth.manager import get_user_manager
 from auth.models import User
-from config import JTWTS_KEY, JWT_KEY, ALGORITHM_JWT
+from config import ALGORITHM_JWT, JTWTS_KEY, JWT_KEY
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
 

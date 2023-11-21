@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, update, delete, text
+from sqlalchemy import delete, insert, select, text, update
 from sqlalchemy.exc import NoResultFound
 
 from goods.models import Goods

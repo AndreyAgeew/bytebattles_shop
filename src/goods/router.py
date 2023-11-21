@@ -3,9 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from auth.dependecies import (
-    get_current_user,
     get_current_admin_user,
     get_current_moderator_or_admin_user,
+    get_current_user,
 )
 from auth.models import User
 from database import get_async_session

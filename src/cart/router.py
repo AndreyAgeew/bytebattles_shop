@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from cart.shopping_cart import ShoppingCart
 from cart.dependecies import get_current_cart
+from cart.shopping_cart import ShoppingCart
 from database import get_async_session
 from goods.dao import GoodsDAO
 

@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, delete, text, desc
+from sqlalchemy import delete, desc, insert, select, text
 from sqlalchemy.exc import NoResultFound
 
 from order.models import Order

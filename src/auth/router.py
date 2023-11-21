@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from passlib.context import CryptContext
 
 from auth.base_config import create_access_token
