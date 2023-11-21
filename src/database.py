@@ -16,24 +16,52 @@ Base: DeclarativeMeta = declarative_base()
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, doc="Уникальный идентификатор пользователя.")
+    id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, doc="Уникальный идентификатор пользователя."
+    )
     email: Mapped[str] = mapped_column(
-        String(length=320), unique=True, index=True, nullable=False, doc="Email пользователя."
+        String(length=320),
+        unique=True,
+        index=True,
+        nullable=False,
+        doc="Email пользователя.",
     )
     name: Mapped[str] = mapped_column(String, nullable=False, doc="Имя пользователя.")
-    surname: Mapped[str] = mapped_column(String, nullable=False, doc="Фамилия пользователя.")
-    patronymic: Mapped[str] = mapped_column(String, nullable=True, doc="Отчество пользователя (по желанию).")
-    phone_number: Mapped[str] = mapped_column(String, nullable=False, unique=True, doc="Номер телефона пользователя.")
-    registered_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow(),
-                                                    doc="Метка времени регистрации пользователя.")
-    role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id, ondelete='CASCADE'), nullable=True,
-                                         doc="Идентификатор связанной с пользователем роли.")
-    hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False, doc="Хэш пароля пользователя.")
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, doc="Активен ли пользователь.")
-    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False,
-                                               doc="Является ли пользователь администратором.")
-    is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False,
-                                              doc="Подтвержден ли пользователь.")
+    surname: Mapped[str] = mapped_column(
+        String, nullable=False, doc="Фамилия пользователя."
+    )
+    patronymic: Mapped[str] = mapped_column(
+        String, nullable=True, doc="Отчество пользователя (по желанию)."
+    )
+    phone_number: Mapped[str] = mapped_column(
+        String, nullable=False, unique=True, doc="Номер телефона пользователя."
+    )
+    registered_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP,
+        default=datetime.utcnow(),
+        doc="Метка времени регистрации пользователя.",
+    )
+    role_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey(Role.id, ondelete="CASCADE"),
+        nullable=True,
+        doc="Идентификатор связанной с пользователем роли.",
+    )
+    hashed_password: Mapped[str] = mapped_column(
+        String(length=1024), nullable=False, doc="Хэш пароля пользователя."
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, default=True, nullable=False, doc="Активен ли пользователь."
+    )
+    is_superuser: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
+        doc="Является ли пользователь администратором.",
+    )
+    is_verified: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=False, doc="Подтвержден ли пользователь."
+    )
 
 
 engine = create_async_engine(DATABASE_URL)

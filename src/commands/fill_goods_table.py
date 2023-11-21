@@ -14,7 +14,7 @@ from order.dao import OrderDAO
 from goods.dao import GoodsDAO
 from auth.dao import UserDAO
 
-src_dir = os.path.join(os.path.dirname(__file__), '..', '..')
+src_dir = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.append(src_dir)
 
 

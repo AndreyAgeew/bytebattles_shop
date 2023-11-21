@@ -13,12 +13,19 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class UserDAO:
     @classmethod
     async def create_user(cls, session, data):
-        validate_password(data['password'], data['confirm_password'])
-        validate_phone(data['phone_number'])
-        user_data = {'name': data['name'], 'surname': data['surname'], 'phone_number': data['phone_number'],
-                     'email': data['email'], 'hashed_password': pwd_context.hash(data['password']), 'role_id': 1,
-                     'is_active': data['is_active'], 'is_superuser': data['is_superuser'],
-                     'is_verified': data['is_verified']}
+        validate_password(data["password"], data["confirm_password"])
+        validate_phone(data["phone_number"])
+        user_data = {
+            "name": data["name"],
+            "surname": data["surname"],
+            "phone_number": data["phone_number"],
+            "email": data["email"],
+            "hashed_password": pwd_context.hash(data["password"]),
+            "role_id": 1,
+            "is_active": data["is_active"],
+            "is_superuser": data["is_superuser"],
+            "is_verified": data["is_verified"],
+        }
 
         user = User(**user_data)
         async with session.begin():

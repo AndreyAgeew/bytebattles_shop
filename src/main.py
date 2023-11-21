@@ -64,31 +64,35 @@ app.include_router(order)
 
 
 @app.post("/webhook")
-async def webhook_received(request: Request, stripe_signature: str = Header(None),
-                           session: AsyncSession = Depends(get_async_session)):
+async def webhook_received(
+    request: Request,
+    stripe_signature: str = Header(None),
+    session: AsyncSession = Depends(get_async_session),
+):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
     try:
         event = stripe.Webhook.construct_event(
-            payload=data,
-            sig_header=stripe_signature,
-            secret=webhook_secret
+            payload=data, sig_header=stripe_signature, secret=webhook_secret
         )
-        event_data = event['data']
+        event_data = event["data"]
     except Exception as e:
         return {"error": str(e)}
     order_id = await OrderDAO.get_last_order_id(session=session)
-    event_type = event['type']
-    if event_type == 'product.created':
-        print('product.created')
-    elif event_type == 'checkout.session.completed':
+    event_type = event["type"]
+    if event_type == "product.created":
+        print("product.created")
+    elif event_type == "checkout.session.completed":
         order = await OrderDAO.find_by_id(session=session, order_id=order_id)
-        games = [await GoodsDAO.find_by_id(session=session, goods_id=item['id']) for item in order.basket_history]
+        games = [
+            await GoodsDAO.find_by_id(session=session, goods_id=item["id"])
+            for item in order.basket_history
+        ]
         for game in games:
             game.quantity -= 1
             game.updated_at = datetime.utcnow()
         order.status = 1
         await session.commit()
-        print('checkout session completed')
+        print("checkout session completed")
 
     return {"status": "success"}

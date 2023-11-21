@@ -14,8 +14,12 @@ router = APIRouter(
 
 
 @router.post("/add_to_goods/{goods_id}/")
-async def add_image_to_goods(goods_id: int, image: UploadFile, user: User = Depends(get_current_admin_user),
-                             session: AsyncSession = Depends(get_async_session)):
+async def add_image_to_goods(
+    goods_id: int,
+    image: UploadFile,
+    user: User = Depends(get_current_admin_user),
+    session: AsyncSession = Depends(get_async_session),
+):
     existing_goods = await GoodsDAO.find_by_id(session, goods_id)
     if existing_goods is None:
         raise HTTPException(status_code=404, detail="Товар не найден")

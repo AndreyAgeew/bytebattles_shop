@@ -16,10 +16,10 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         print(f"User {user.id} has registered.")
 
     async def create(
-            self,
-            user_create: schemas.UC,
-            safe: bool = False,
-            request: Optional[Request] = None,
+        self,
+        user_create: schemas.UC,
+        safe: bool = False,
+        request: Optional[Request] = None,
     ) -> models.UP:
         await self.validate_password(user_create.password, user_create)
 
@@ -35,7 +35,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         password = user_dict.pop("password")
         confirm_password = user_dict.pop("confirm_password")
         validate_password(password, confirm_password)
-        validate_phone(user_dict['phone_number'])
+        validate_phone(user_dict["phone_number"])
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict["role_id"] = 1
         created_user = await self.user_db.create(user_dict)

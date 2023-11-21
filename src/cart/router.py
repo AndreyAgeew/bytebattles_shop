@@ -13,8 +13,11 @@ router = APIRouter(
 
 
 @router.get("/add_to_cart/{goods_id}")
-async def add_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_session),
-                      cart: ShoppingCart = Depends(get_current_cart)):
+async def add_to_cart(
+    goods_id: int,
+    session: AsyncSession = Depends(get_async_session),
+    cart: ShoppingCart = Depends(get_current_cart),
+):
     item = await GoodsDAO.find_by_id(session, goods_id)
     if item:
         await cart.add_item(item)
@@ -23,8 +26,11 @@ async def add_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_s
 
 
 @router.get("/remove_to_cart/{goods_id}")
-async def remove_to_cart(goods_id: int, session: AsyncSession = Depends(get_async_session),
-                         cart: ShoppingCart = Depends(get_current_cart)):
+async def remove_to_cart(
+    goods_id: int,
+    session: AsyncSession = Depends(get_async_session),
+    cart: ShoppingCart = Depends(get_current_cart),
+):
     item = await GoodsDAO.find_by_id(session, goods_id)
     if item:
         await cart.remove_item(item)

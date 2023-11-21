@@ -19,7 +19,6 @@ class GoodsDAO:
 
     @classmethod
     async def find_by_id(cls, session, goods_id):
-
         query = select(Goods).filter_by(id=goods_id)
         result_proxy = await session.execute(query)
         goods = result_proxy.scalar_one_or_none()
