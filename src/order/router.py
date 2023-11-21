@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.dependecies import get_current_user
-from auth.models import User
-from cart.dependecies import get_current_cart
-from database import get_async_session
-from goods.dao import GoodsDAO
+from src.auth.dependecies import get_current_user
+from src.auth.models import User
+from src.cart.dependecies import get_current_cart
+from src.database import get_async_session
+from src.goods.dao import GoodsDAO
 
 from .dao import OrderDAO
 from .payment import get_stripe_session

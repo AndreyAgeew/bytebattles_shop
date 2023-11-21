@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.dependecies import get_current_admin_user
-from auth.models import User
-from database import get_async_session
-from goods.dao import GoodsDAO
-from goods.models import Goods
+from src.auth.dependecies import get_current_admin_user
+from src.auth.models import User
+from src.database import get_async_session
+from src.goods.dao import GoodsDAO
 
 router = APIRouter(
     prefix="/images",

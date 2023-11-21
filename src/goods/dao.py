@@ -1,7 +1,7 @@
 from sqlalchemy import delete, insert, select, text, update
 from sqlalchemy.exc import NoResultFound
 
-from goods.models import Goods
+from src.goods.models import Goods
 
 
 class GoodsDAO:
@@ -53,7 +53,6 @@ class GoodsDAO:
 
     @classmethod
     async def update_goods_image(cls, session, goods_id, image_url):
-        goods = cls.find_by_id(session, goods_id=goods_id)
         stmt = update(Goods).where(Goods.id == goods_id).values(image_url=image_url)
         await session.execute(stmt)
 

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from cart.dependecies import get_current_cart
-from cart.shopping_cart import ShoppingCart
-from database import get_async_session
-from goods.dao import GoodsDAO
+from src.cart.dependecies import get_current_cart
+from src.cart.shopping_cart import ShoppingCart
+from src.database import get_async_session
+from src.goods.dao import GoodsDAO
 
 router = APIRouter(
     prefix="/cart",

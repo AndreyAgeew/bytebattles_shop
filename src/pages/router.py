@@ -2,26 +2,26 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.base_config import create_access_token
-from auth.dao import UserDAO
-from auth.dependecies import get_current_user
-from auth.models import User
-from auth.router import pwd_context
-from auth.schemas import SUserAuth, UserCreate
-from cart.dependecies import get_current_cart
-from cart.shopping_cart import ShoppingCart
-from database import get_async_session
-from goods.dependecies import get_active_goods
-from goods.models import Goods
-from order.dependecies import get_current_orders
-from order.models import Order
+from src.auth.base_config import create_access_token
+from src.auth.dao import UserDAO
+from src.auth.dependecies import get_current_user
+from src.auth.models import User
+from src.auth.router import pwd_context
+from src.auth.schemas import SUserAuth, UserCreate
+from src.cart.dependecies import get_current_cart
+from src.cart.shopping_cart import ShoppingCart
+from src.database import get_async_session
+from src.goods.dependecies import get_active_goods
+from src.goods.models import Goods
+from src.order.dependecies import get_current_orders
+from src.order.models import Order
 
 router = APIRouter(
     prefix="/pages",
     tags=["Pages"],
 )
 
-templates = Jinja2Templates(directory="src/templates")
+templates = Jinja2Templates(directory="templates/")
 
 
 @router.get("/base")

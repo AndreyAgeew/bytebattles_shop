@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import JSON, TIMESTAMP, Column, ForeignKey, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
-from auth.models import User
+from src.auth.models import User
 
 Base = declarative_base()
 

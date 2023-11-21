@@ -1,10 +1,10 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.dependecies import get_current_user
-from auth.models import User
-from database import get_async_session
-from order.dao import OrderDAO
+from src.auth.dependecies import get_current_user
+from src.auth.models import User
+from src.database import get_async_session
+from src.order.dao import OrderDAO
 
 
 async def get_current_orders(

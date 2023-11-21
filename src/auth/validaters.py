@@ -1,6 +1,6 @@
 import re
 
-from auth.errors import PasswordValidationError, PhoneValidationError
+from src.auth.errors import PasswordValidationError, PhoneValidationError
 
 
 def validate_password(password: str, confirm_password: str):

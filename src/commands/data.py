@@ -1,4 +1,4 @@
-from auth.router import pwd_context
+from src.auth.router import pwd_context
 
 goods_data = [
     {

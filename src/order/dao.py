@@ -1,7 +1,7 @@
 from sqlalchemy import delete, desc, insert, select, text
 from sqlalchemy.exc import NoResultFound
 
-from order.models import Order
+from src.order.models import Order
 
 
 class OrderDAO:

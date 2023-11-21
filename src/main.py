@@ -1,25 +1,26 @@
 from datetime import datetime
 
 import stripe
+import uvicorn
 from fastapi import Depends, FastAPI, Header, Request
 from sqladmin import Admin
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from admin.models import GoodsAdmin, UserAdmin
-from auth.base_config import fastapi_users
-from auth.router import router as login
-from auth.schemas import UserCreate, UserRead
-from cart.router import router as cart
-from config import STRIPE_WEBHOOK_SECRET
-from database import engine, get_async_session
-from goods.dao import GoodsDAO
-from goods.router import router as goods
-from images.router import router as images
-from order.dao import OrderDAO
-from order.router import router as order
-from pages.router import router as pages
+from src.admin.models import GoodsAdmin, UserAdmin
+from src.auth.base_config import fastapi_users
+from src.auth.router import router as login
+from src.auth.schemas import UserCreate, UserRead
+from src.cart.router import router as cart
+from src.config import BASE_DIR, STRIPE_WEBHOOK_SECRET
+from src.database import engine, get_async_session
+from src.goods.dao import GoodsDAO
+from src.goods.router import router as goods
+from src.images.router import router as images
+from src.order.dao import OrderDAO
+from src.order.router import router as order
+from src.pages.router import router as pages
 
 app = FastAPI()
 admin = Admin(app, engine)
@@ -27,7 +28,7 @@ admin = Admin(app, engine)
 admin.add_view(UserAdmin)
 admin.add_view(GoodsAdmin)
 
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
+app.mount("/static", StaticFiles(directory=f"{BASE_DIR}/static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -59,9 +60,9 @@ app.include_router(order)
 
 @app.post("/webhook")
 async def webhook_received(
-    request: Request,
-    stripe_signature: str = Header(None),
-    session: AsyncSession = Depends(get_async_session),
+        request: Request,
+        stripe_signature: str = Header(None),
+        session: AsyncSession = Depends(get_async_session),
 ):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
@@ -90,3 +91,7 @@ async def webhook_received(
         print("checkout session completed")
 
     return {"status": "success"}
+
+
+if __name__ == '__main__':
+    uvicorn.run("src.main:app", reload=True)

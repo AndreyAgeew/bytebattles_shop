@@ -1,6 +1,6 @@
 from typing import List, Optional, Union, overload
 
-from goods.models import Goods
+from src.goods.models import Goods
 
 
 class ShoppingCart:

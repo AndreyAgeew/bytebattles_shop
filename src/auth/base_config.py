@@ -8,9 +8,9 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 
-from auth.manager import get_user_manager
-from auth.models import User
-from config import ALGORITHM_JWT, JTWTS_KEY, JWT_KEY
+from src.auth.manager import get_user_manager
+from src.auth.models import User
+from src.config import ALGORITHM_JWT, JTWTS_KEY, JWT_KEY
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
 
