@@ -16,7 +16,7 @@ from src.auth.base_config import fastapi_users
 from src.auth.router import router as login
 from src.auth.schemas import UserCreate, UserRead
 from src.cart.router import router as cart
-from src.config import BASE_DIR, STRIPE_WEBHOOK_SECRET
+from src.config import BASE_DIR, CELERY_BROKER_HOST, STRIPE_WEBHOOK_SECRET
 from src.database import engine, get_async_session
 from src.goods.dao import GoodsDAO
 from src.goods.router import router as goods
@@ -50,7 +50,7 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url("redis://localhost:6379")
+    redis = aioredis.from_url(CELERY_BROKER_HOST)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
