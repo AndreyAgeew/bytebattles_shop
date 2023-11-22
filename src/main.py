@@ -3,6 +3,9 @@ from datetime import datetime
 import stripe
 import uvicorn
 from fastapi import Depends, FastAPI, Header, Request
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from redis import asyncio as aioredis
 from sqladmin import Admin
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.middleware.cors import CORSMiddleware
@@ -44,6 +47,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url("redis://localhost:6379")
+    FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
@@ -60,9 +70,9 @@ app.include_router(order)
 
 @app.post("/webhook")
 async def webhook_received(
-        request: Request,
-        stripe_signature: str = Header(None),
-        session: AsyncSession = Depends(get_async_session),
+    request: Request,
+    stripe_signature: str = Header(None),
+    session: AsyncSession = Depends(get_async_session),
 ):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
@@ -93,5 +103,5 @@ async def webhook_received(
     return {"status": "success"}
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     uvicorn.run("src.main:app", reload=True)
