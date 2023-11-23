@@ -10,6 +10,7 @@ from src.auth.router import pwd_context
 from src.auth.schemas import SUserAuth, UserCreate
 from src.cart.dependecies import get_current_cart
 from src.cart.shopping_cart import ShoppingCart
+from src.config import BASE_DIR
 from src.database import get_async_session
 from src.goods.dependecies import get_active_goods
 from src.goods.models import Goods
@@ -21,7 +22,7 @@ router = APIRouter(
     tags=["Pages"],
 )
 
-templates = Jinja2Templates(directory="templates/")
+templates = Jinja2Templates(directory=f"{BASE_DIR}/templates/")
 
 
 @router.get("/base")
