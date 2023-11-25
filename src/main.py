@@ -5,6 +5,7 @@ import uvicorn
 from fastapi import Depends, FastAPI, Header, Request
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from prometheus_fastapi_instrumentator import Instrumentator
 from redis import asyncio as aioredis
 from sqladmin import Admin
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,7 +17,7 @@ from src.auth.base_config import fastapi_users
 from src.auth.router import router as login
 from src.auth.schemas import UserCreate, UserRead
 from src.cart.router import router as cart
-from src.config import BASE_DIR, STRIPE_WEBHOOK_SECRET, REDIS_HOST, REDIS_PORT
+from src.config import BASE_DIR, REDIS_HOST, REDIS_PORT, STRIPE_WEBHOOK_SECRET
 from src.database import engine, get_async_session
 from src.goods.dao import GoodsDAO
 from src.goods.router import router as goods
@@ -54,6 +55,13 @@ async def startup():
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"],
+)
+
+Instrumentator().instrument(app).expose(app)
+
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
@@ -70,9 +78,9 @@ app.include_router(order)
 
 @app.post("/webhook")
 async def webhook_received(
-        request: Request,
-        stripe_signature: str = Header(None),
-        session: AsyncSession = Depends(get_async_session),
+    request: Request,
+    stripe_signature: str = Header(None),
+    session: AsyncSession = Depends(get_async_session),
 ):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
