@@ -3,6 +3,8 @@ services:
   db:
     image: postgres:15
     container_name: game_shop_db
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
     env_file:
       - .env-non-dev
     ports:
@@ -26,3 +28,28 @@ services:
       - "docker/app.sh"
     ports:
       - 7777:8000
+
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana:9.4.7
+    container_name: gafana
+    volumes:
+      - grafanadata:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+
+
+volumes:
+  postgresdata:
+  prometheusdata:
+  grafanadata:
