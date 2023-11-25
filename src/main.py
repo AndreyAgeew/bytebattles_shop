@@ -16,7 +16,7 @@ from src.auth.base_config import fastapi_users
 from src.auth.router import router as login
 from src.auth.schemas import UserCreate, UserRead
 from src.cart.router import router as cart
-from src.config import BASE_DIR, CELERY_BROKER_HOST, STRIPE_WEBHOOK_SECRET
+from src.config import BASE_DIR, STRIPE_WEBHOOK_SECRET, REDIS_HOST, REDIS_PORT
 from src.database import engine, get_async_session
 from src.goods.dao import GoodsDAO
 from src.goods.router import router as goods
@@ -50,7 +50,7 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url(CELERY_BROKER_HOST)
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
@@ -70,9 +70,9 @@ app.include_router(order)
 
 @app.post("/webhook")
 async def webhook_received(
-    request: Request,
-    stripe_signature: str = Header(None),
-    session: AsyncSession = Depends(get_async_session),
+        request: Request,
+        stripe_signature: str = Header(None),
+        session: AsyncSession = Depends(get_async_session),
 ):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
