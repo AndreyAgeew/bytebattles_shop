@@ -1,7 +1,7 @@
 from sqlalchemy import select, insert, update, delete, text
 from sqlalchemy.exc import NoResultFound
 
-from goods.models import Goods
+from src.goods.models import Goods
 
 
 class GoodsDAO:

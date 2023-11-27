@@ -13,13 +13,15 @@ from pages.router import router as pages
 from images.router import router as images
 from sqladmin import Admin
 
+from src.config import BASE_DIR
+
 app = FastAPI()
 admin = Admin(app, engine)
 
 admin.add_view(UserAdmin)
 admin.add_view(GoodsAdmin)
 
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
+app.mount("/static", StaticFiles(directory=F"{BASE_DIR}/static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",

@@ -1,4 +1,4 @@
-from auth.router import pwd_context
+from src.auth.router import pwd_context
 
 goods_data = [
     {'name': 'GRAND THEFT AUTO V: PREMIUM ONLINE EDITION', 'price': 2299, 'quantity': 50, 'is_active': True,

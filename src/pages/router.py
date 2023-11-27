@@ -3,14 +3,14 @@ from fastapi.responses import RedirectResponse
 
 from fastapi.templating import Jinja2Templates
 
-from auth.base_config import create_access_token
-from auth.dao import UserDAO
-from auth.dependecies import get_current_user
-from auth.models import User
-from auth.router import pwd_context
-from auth.schemas import SUserAuth
-from goods.dependecies import get_active_goods
-from goods.models import Goods
+from src.auth.base_config import create_access_token
+from src.auth.dao import UserDAO
+from src.auth.dependecies import get_current_user
+from src.auth.models import User
+from src.auth.router import pwd_context
+from src.auth.schemas import SUserAuth
+from src.goods.dependecies import get_active_goods
+from src.goods.models import Goods
 
 router = APIRouter(
     prefix="/pages",

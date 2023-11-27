@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from auth.dependecies import get_current_user, get_current_admin_user, get_current_moderator_or_admin_user
-from auth.models import User
-from database import get_async_session
-from goods.dao import GoodsDAO
-from goods.schemas import GoodsCreate, GoodsUpdate
+from src.auth.dependecies import get_current_user, get_current_admin_user, get_current_moderator_or_admin_user
+from src.auth.models import User
+from src.database import get_async_session
+from src.goods.dao import GoodsDAO
+from src.goods.schemas import GoodsCreate, GoodsUpdate
 
 router = APIRouter(
     prefix="/goods",

@@ -2,9 +2,9 @@ from datetime import datetime
 
 from fastapi import Request, HTTPException, Depends
 import jwt
-from auth.dao import UserDAO
-from auth.models import User
-from config import JWT_KEY, ALGORITHM_JWT
+from src.auth.dao import UserDAO
+from src.auth.models import User
+from src.config import JWT_KEY, ALGORITHM_JWT
 
 
 def get_token(request: Request):

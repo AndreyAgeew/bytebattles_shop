@@ -1,7 +1,7 @@
 from sqlalchemy import select, delete, text
 
-from auth.models import Role, User
-from database import async_session_maker
+from src.auth.models import Role, User
+from src.database import async_session_maker
 
 
 class UserDAO:
