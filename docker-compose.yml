@@ -48,6 +48,29 @@ services:
     ports:
       - 3000:3000
 
+  celery:
+    image: game_shop_celery
+    build:
+      context: .
+    container_name: game_shop_celery
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+    command:
+      - "docker/celery.sh"
+
+  flower:
+    image: game_shop_flower
+    build:
+      context: .
+    container_name: game_shop_flower
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+    command:
+      - "docker/flower.sh"
 
 volumes:
   postgresdata:

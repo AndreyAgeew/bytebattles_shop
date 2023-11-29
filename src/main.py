@@ -14,6 +14,7 @@ from starlette.staticfiles import StaticFiles
 
 from src.admin.models import GoodsAdmin, UserAdmin
 from src.auth.base_config import fastapi_users
+from src.auth.dao import UserDAO
 from src.auth.router import router as login
 from src.auth.schemas import UserCreate, UserRead
 from src.cart.router import router as cart
@@ -22,6 +23,7 @@ from src.database import engine, get_async_session
 from src.goods.dao import GoodsDAO
 from src.goods.router import router as goods
 from src.images.router import router as images
+from src.jobs.tasks import send_order_confirmation_email
 from src.order.dao import OrderDAO
 from src.order.router import router as order
 from src.pages.router import router as pages
@@ -78,9 +80,9 @@ app.include_router(order)
 
 @app.post("/webhook")
 async def webhook_received(
-    request: Request,
-    stripe_signature: str = Header(None),
-    session: AsyncSession = Depends(get_async_session),
+        request: Request,
+        stripe_signature: str = Header(None),
+        session: AsyncSession = Depends(get_async_session),
 ):
     webhook_secret = STRIPE_WEBHOOK_SECRET
     data = await request.body()
@@ -97,15 +99,20 @@ async def webhook_received(
         print("product.created")
     elif event_type == "checkout.session.completed":
         order = await OrderDAO.find_by_id(session=session, order_id=order_id)
+        user = await UserDAO.find_by_id(order.initiator_id)
         games = [
             await GoodsDAO.find_by_id(session=session, goods_id=item["id"])
             for item in order.basket_history
         ]
+        order_dict = {'id': order.id,
+                      'created_at': order.created_at,
+                      'games': [game.name for game in games]}
         for game in games:
             game.quantity -= 1
             game.updated_at = datetime.utcnow()
         order.status = 1
         await session.commit()
+        send_order_confirmation_email.delay(user.email, order_dict)
         print("checkout session completed")
 
     return {"status": "success"}
