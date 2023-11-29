@@ -78,11 +78,11 @@ ByteBattles Game Store - это веб-приложение, предназна�
 - Если есть проблемы с получением STRIPE_API_KEY, STRIPE_WEBHOOK_SECRET, обратитесь ко мне, я предоставлю ключи.
     Запуск celery worker для отправки информации по оплаченному заказу на почту клиента:
     ```bash
-    celery -A app.tasks.celery:celery worker --loglevel=INFO
+    celery -A src.jobs.celery:celery worker --loglevel=INFO
     ```
 - Для Windows:
     ```bash
-    celery -A app.tasks.celery:celery worker --loglevel=INFO --pool=solo
+    celery -A src.jobs.celery:celery worker --loglevel=INFO --pool=solo
   
 6. **Откройте приложение:** Перейдите в веб-браузере по адресу http://127.0.0.1:8000 и начните использовать приложение.
 
