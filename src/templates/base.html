@@ -24,6 +24,7 @@
     <script src="/static/js/cart/ramove_goods.js"></script>
     <script src="/static/js/cart/add_goods.js"></script>
     <script src="/static/js/cart/payment.js"></script>
+    <script src="/static/js/auth/logout.js"></script>
 
 
 </head>
@@ -44,18 +45,18 @@
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle btn-lg" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    {{ user.email }}
+                {{ user.email }}
             </button>
 
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/pages/orders">Заказы</a></li>
-                    <li>
-                    <li><a class="dropdown-item" href="/pages/cart">Корзина</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="/auth/logout">Выйти</a></li>
-                </ul>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/pages/orders">Заказы</a></li>
+                <li>
+                <li><a class="dropdown-item" href="/pages/cart">Корзина</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a id="logoutButton" class="dropdown-item" href="#">Выйти</a></li>
+            </ul>
 
         </div>
     </div>
