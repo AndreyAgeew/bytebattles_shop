@@ -1,36 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Регистрация</title>
-</head>
-<body>
-<h2>Регистрация</h2>
-<form id="registerForm">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+{% extends 'base_auth.html' %}
+{% block title %} Register {% endblock %}
+{% block content %}
+    <form id="registerForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
 
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" name="password" required><br>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required><br>
 
-    <label for="confirm_password">Подтвердите пароль:</label>
-    <input type="password" id="confirm_password" name="confirm_password" required><br>
+        <label for="confirm_password">Подтвердите пароль:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
 
-    <label for="name">Имя:</label>
-    <input type="text" id="name" name="name" required><br>
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required><br>
 
-    <label for="surname">Фамилия:</label>
-    <input type="text" id="surname" name="surname" required><br>
+        <label for="surname">Фамилия:</label>
+        <input type="text" id="surname" name="surname" required><br>
 
-    <label for="patronymic">Отчество:</label>
-    <input type="text" id="patronymic" name="patronymic"><br>
+        <label for="patronymic">Отчество:</label>
+        <input type="text" id="patronymic" name="patronymic"><br>
 
-    <label for="phone_number">Номер телефона:</label>
-    <input type="tel" id="phone_number" name="phone_number" required><br>
+        <label for="phone_number">Номер телефона:</label>
+        <input type="tel" id="phone_number" name="phone_number" required><br>
 
-    <input type="submit" value="Register">
-    <button id="loginButton">Login</button>
-</form>
-<script src="/static/js/auth/register.js"></script>
-<script src="/static/js/auth/login_button.js"></script>
-</body>
-</html>
+        <input type="submit" value="Register">
+        <button id="loginButton">Login</button>
+    </form>
+    <script src="/static/js/auth/register.js"></script>
+    <script src="/static/js/auth/login_button.js"></script>
+{% endblock %}
+
