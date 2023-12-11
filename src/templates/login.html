@@ -1,6 +1,10 @@
 {% extends 'base_auth.html' %}
 {% block title %} Login {% endblock %}
 {% block content %}
+    <video autoplay muted loop>
+        <source src="/static/graphics/SnowMeLog.mp4" type="video/mp4">
+    </video>
+
     <form id="loginForm">
         <label for="email_or_phone">Email or Phone:</label>
         <input type="text" id="email_or_phone" name="email_or_phone" required>
