@@ -19,3 +19,4 @@ RUN curl -O -L https://github.com/stripe/stripe-cli/releases/download/v1.18.0/st
     tar -xvf stripe_1.18.0_linux_x86_64.tar.gz && \
     mv stripe /usr/local/bin/
 
+CMD ["sh", "-c", "alembic upgrade head && python src/commands/fill_goods_table.py && stripe listen --forward-to 0.0.0.0:8000/webhook & gunicorn src.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000 && celery --app=src.jobs.celery:celery worker -l INFO"]
