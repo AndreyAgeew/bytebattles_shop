@@ -85,3 +85,6 @@ class ShoppingCart:
             return None
         total_price = sum(item.price for item in self.items)
         return total_price
+
+    def __len__(self):
+        return len(self.items)
