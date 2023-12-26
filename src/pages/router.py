@@ -124,3 +124,10 @@ async def view_orders(
     return templates.TemplateResponse(
         "orders.html", {"request": request, "orders": orders, "user": user}
     )
+
+@router.get("/test")
+def get_base_page(request: Request):
+    title = "Базовая страница"
+    return templates.TemplateResponse(
+        "catalog.html", {"request": request, "title": title}
+    )
