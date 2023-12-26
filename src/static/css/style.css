@@ -4,12 +4,7 @@
   font-weight:300;
   font-family:'Roboto';
   font-style:normal;
-  src:url(../fonts/Roboto-light.woff2) format("woff2")
 }
-@font-face{font-display:swap;font-weight:400;font-family:'Roboto';font-style:normal;src:url(../fonts/Roboto-Regular.woff2) format("woff2")}
-@font-face{font-display:swap;font-weight:500;font-family:'Roboto';font-style:normal;src:url(../fonts/Roboto-Medium.woff2) format("woff2")}
-@font-face{font-display:swap;font-weight:700;font-family:'Roboto';font-style:normal;src:url(../fonts/Roboto-Bold.woff2) format("woff2")}
-@font-face{font-display:swap;font-weight:400;font-family:'PressStart';font-style:normal;src:url(../fonts/PressStart2P-Regular.woff2) format("woff2")}
 
 
 

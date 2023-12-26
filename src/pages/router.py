@@ -35,14 +35,14 @@ def get_base_page(request: Request, user: User = Depends(get_current_user)):
 
 @router.get("/goods")
 def get_goods_page(
-    request: Request,
-    goods: Goods = Depends(get_active_goods),
-    user: User = Depends(get_current_user),
-    cart: ShoppingCart = Depends(get_current_cart),
+        request: Request,
+        goods: Goods = Depends(get_active_goods),
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
 ):
     title = "Каталог"
     return templates.TemplateResponse(
-        "goods.html",
+        "catalog.html",
         {
             "request": request,
             "title": title,
@@ -84,7 +84,7 @@ async def register_page(request: Request):
 
 @router.post("/register")
 async def register_user(
-    user_data: UserCreate, session: AsyncSession = Depends(get_async_session)
+        user_data: UserCreate, session: AsyncSession = Depends(get_async_session)
 ):
     try:
         await UserDAO.create_user(session, user_data.dict())
@@ -96,9 +96,9 @@ async def register_user(
 
 @router.get("/cart")
 async def view_cart(
-    request: Request,
-    user: User = Depends(get_current_user),
-    cart: ShoppingCart = Depends(get_current_cart),
+        request: Request,
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
 ):
     cart_items = [
         {"name": item.name, "price": item.price, "id": item.id} for item in cart
@@ -117,17 +117,26 @@ async def view_cart(
 
 @router.get("/orders")
 async def view_orders(
-    request: Request,
-    user: User = Depends(get_current_user),
-    orders: Order = Depends(get_current_orders),
+        request: Request,
+        user: User = Depends(get_current_user),
+        orders: Order = Depends(get_current_orders),
 ):
     return templates.TemplateResponse(
         "orders.html", {"request": request, "orders": orders, "user": user}
     )
 
+
 @router.get("/test")
+def get_base_page(request: Request, goods: Goods = Depends(get_active_goods)):
+    title = "Базовая страница"
+    return templates.TemplateResponse(
+        "catalog.html", {"request": request, "title": title, "goods": goods}
+    )
+
+
+@router.get("/test1")
 def get_base_page(request: Request):
     title = "Базовая страница"
     return templates.TemplateResponse(
-        "catalog.html", {"request": request, "title": title}
+        "base1.html", {"request": request, "title": title}
     )
