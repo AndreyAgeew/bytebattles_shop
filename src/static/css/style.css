@@ -1,16 +1,9 @@
 @charset "UTF-8";
-@font-face{
-  font-display:swap;
-  font-weight:300;
-  font-family:'Roboto';
-  font-style:normal;
-}
-
 
 
 .body {
    
-  background: url(plamia1.gif) bottom center / cover no-repeat;
+  background: url(../img/plamia.gif) bottom center / cover no-repeat;
   background-color: rgba(12, 16, 22, 1);
   position: relative;
 
@@ -31,7 +24,7 @@
   justify-content: space-between;
 }
 
-.snow1{
+/* .snow1{
   background-image: url(../img/snow1.png);
   position:absolute;
   width: 100%;
@@ -45,7 +38,7 @@
   width: 100%;
   height: 100%;
   position:absolute;
-}
+} */
 
 @keyframes snow2{
   0%{background-position: 0 0, 0 0;}
