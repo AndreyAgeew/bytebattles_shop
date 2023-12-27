@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, Query
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -36,19 +36,36 @@ def get_base_page(request: Request, user: User = Depends(get_current_user)):
 @router.get("/goods")
 def get_goods_page(
         request: Request,
+        page: int = Query(1, ge=1),
+        page_size: int = Query(6, ge=1),
         goods: Goods = Depends(get_active_goods),
         user: User = Depends(get_current_user),
         cart: ShoppingCart = Depends(get_current_cart),
 ):
     title = "Каталог"
+
+    # Рассчитать общее количество страниц
+    total_pages = len(goods) // page_size + (len(goods) % page_size > 0)
+
+    # Общее количество игр
+    total_goods_count = len(goods)
+
+    # Получить товары для текущей страницы
+    start = (page - 1) * page_size
+    end = start + page_size
+    goods_page = goods[start:end]
+
     return templates.TemplateResponse(
         "catalog.html",
         {
             "request": request,
             "title": title,
-            "goods": goods,
+            "goods": goods_page,
+            "total_pages": total_pages,
+            "current_page": page,
             "user": user,
-            "cart": cart,
+            "cart_items": cart,
+            "total_goods_count": total_goods_count,
         },
     )
 
@@ -101,11 +118,11 @@ async def view_cart(
         cart: ShoppingCart = Depends(get_current_cart),
 ):
     cart_items = [
-        {"name": item.name, "price": item.price, "id": item.id} for item in cart
+        {"name": item.name, "price": item.price, "id": item.id, "image_url": item.image_url} for item in cart
     ]
     total_price = await cart.get_total_price()
     return templates.TemplateResponse(
-        "cart.html",
+        "cart1.html",
         {
             "request": request,
             "cart_items": cart_items,
@@ -123,20 +140,4 @@ async def view_orders(
 ):
     return templates.TemplateResponse(
         "orders.html", {"request": request, "orders": orders, "user": user}
-    )
-
-
-@router.get("/test")
-def get_base_page(request: Request, goods: Goods = Depends(get_active_goods)):
-    title = "Базовая страница"
-    return templates.TemplateResponse(
-        "catalog.html", {"request": request, "title": title, "goods": goods}
-    )
-
-
-@router.get("/test1")
-def get_base_page(request: Request):
-    title = "Базовая страница"
-    return templates.TemplateResponse(
-        "base1.html", {"request": request, "title": title}
     )
