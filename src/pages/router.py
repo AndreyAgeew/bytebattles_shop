@@ -150,3 +150,10 @@ async def view_orders(
     return templates.TemplateResponse(
         "orders1.html", {"request": request, "orders": orders, "user": user}
     )
+
+@router.get("/index")
+async def get_index_page(request: Request, user: User = Depends(get_current_user)):
+    title = "Главная страница"
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "title": title, "user": user}
+    )
