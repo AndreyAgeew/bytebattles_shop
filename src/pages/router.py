@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, Query
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -138,6 +140,13 @@ async def view_orders(
         user: User = Depends(get_current_user),
         orders: Order = Depends(get_current_orders),
 ):
+    for order in orders:
+        items = order.basket_history
+        total_price = sum(item['price'] for item in items)
+        order.items = items
+        order.total_price = total_price
+
+
     return templates.TemplateResponse(
-        "orders.html", {"request": request, "orders": orders, "user": user}
+        "orders1.html", {"request": request, "orders": orders, "user": user}
     )
