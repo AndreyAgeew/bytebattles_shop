@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}
+    Каталог - Магазин видеоигр
+{% endblock %}
+{% block content %}
+
+    <section class="container">
+        <div class="content__top content__top--catalog">
+            <h1 class="content__title">
+                Каталог
+            </h1>
+            <span class="content__info">
+          {{ total_goods_count }} доступных для покупки игр
+        </span>
+        </div>
+
+        <div class="content__catalog">
+            <aside class="filter">
+                <h2 class="filter__title">Фильтры</h2>
+
+                <form class="filter__form form" action="#" method="get">
+                    <fieldset class="form__block">
+                        <legend class="form__legend">Цена</legend>
+                        <label class="form__label form__label--price">
+                            <input class="form__input" type="text" name="min-price" value="0">
+                            <span class="form__value">От</span>
+                        </label>
+                        <label class="form__label form__label--price">
+                            <input class="form__input" type="text" name="max-price" value="12345">
+                            <span class="form__value">До</span>
+                        </label>
+                    </fieldset>
+
+                    <fieldset class="form__block">
+                        <legend class="form__legend">Категория</legend>
+                        <label class="form__label form__label--select">
+                            <select class="form__select" type="text" name="category">
+                                <option value="value1">Все категории</option>
+                                <option value="value2">Квесты</option>
+                                <option value="value3">РПГ</option>
+                                <option value="value4">Стрелялки</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+                    <button class="filter__submit button button--primery" type="submit">
+                        Применить
+                    </button>
+                    <button class="filter__reset button button--second" type="button">
+                        Сбросить
+                    </button>
+                </form>
+            </aside>
+
+            <section class="catalog">
+                <ul class="catalog__list">
+                    {% for game in goods %}
+                        <li class="catalog__item">
+                            <a class="catalog__pic" href="/pages/game/{{ game.id }}">
+                                <img src="{{ game.image_url }}" alt="Название товара">
+                            </a>
+
+                            <div class="row centered">
+                                {% if game not in cart_items %}
+                                    <button id="addToCartButton" type="button"
+                                            class="btn btn-lg btn-block btn-success"
+                                            onclick="addToCart('{{ game.id }}')"> В корзину
+                                    </button>
+                                {% else %}
+                                    <button id="removeFromCartButton" type="button"
+                                            class="btn btn-lg btn-block btn-danger"
+                                            onclick="removeFromCart('{{ game.id }}')"> Из корзины
+                                    </button>
+                                {% endif %}
+                            </div>
+
+                            <span class="catalog__price">
+                {{ game.price }}р
+              </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="pagination">
+                    {% if current_page > 1 %}
+                        <button type="button" class="btn btn-lg btn-block btn-success"
+                                href="/pages/goods?page={{ current_page-1 }}">Предыдущая&nbsp
+                        </button>
+                    {% endif %}
+
+                    <span>Страница {{ current_page }} из {{ total_pages }}</span>
+
+                    {% if current_page < total_pages %}
+                        <button type="button" class="btn btn-lg btn-block btn-success"
+                                href="/pages/goods?page={{ current_page+1 }}">&nbspСледующая
+                        </button>
+                    {% endif %}
+                </div>
+            </section>
+
+        </div>
+
+    </section>
+
+{% endblock %}
+
