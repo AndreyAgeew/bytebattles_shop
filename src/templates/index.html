@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}
+    Главная - Магазин видеоигр
+{% endblock %}
+{% block content %}
+ <div class="container">
+      <div class="main">
+        <h1>МАГАЗИН ВИДЕОИГР</h1>
+        <div class="running">
+          <h2 class="running_text">Тысячи&nbsp;игр&nbsp;от&nbsp;классики&nbsp;до&nbsp;последних&nbsp;разработок</h2>
+        </div>
+
+      </div>
+
+      <section class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('/static/img/game1.jpg')"></div>
+            <div class="swiper-slide" style="background-image: url('/static/img/game2.jpg')"></div>
+            <div class="swiper-slide" style="background-image: url('/static/img/game3.jpg')"></div>
+            <div class="swiper-slide" style="background-image: url('/static/img/game4.jpg')"></div>
+            <div class="swiper-slide" style="background-image: url('/static/img/game5.jpg')"></div>
+        </div>
+      </section>
+
+      <section class="hero bg">
+        <h2 class="title">
+          ТОЛЬКО ДЛЯ ТЕБЯ
+        </h2>
+        <p class="hero-text">
+          В ассортименте нашего магазина вы всегда найдете или сможете заказать
+          новинки игр для консолей Microsoft, Sony и Nintendo.
+          Мы делаем акцент на актуальных релизах для PS4, PS5, Xbox One,
+          Xbox Series и Switch.
+        </p>
+        <p class="hero-text">
+          Помимо самих игр в продаже также
+          есть специальные издания консолей, геймпадов и различные аксессуары.
+          С переходом на новое поколение приставок, на старые устройства будет
+           выходить меньше релизов, но это не значит, что они полностью
+           исчезнут из продажи. <br>
+           Мы всегда поддерживаем огромный выбор игр для всех актуальных
+           игровых приставок!
+        </p>
+
+      </section>
+
+      <section class="plus">
+        <div class="hero">
+          <h2 class="title element-animation bg">Наши гарантии</h2>
+          <div class="guarantee__cart">
+            <div class="guarantee__cart_item element-animation">
+              <img class="cart-img" src="/static/img/kach.png" alt="Иконка">
+              <h3 class="guarantee-title">Неизменно высокое качество</h3>
+              <div class="guarantee-popup">
+                <p class="guarantee-popup-text">Мы гарантируем высочайшее качество</p>
+              </div>
+            </div>
+
+            <div class="guarantee__cart_item element-animation">
+              <img class="cart-img" src="/static/img/price.png" alt="Иконка">
+              <h3 class="guarantee-title">Самые низкие цены</h3>
+              <div class="guarantee-popup">
+                <p class="guarantee-popup-text">Если найдете дешевле, мы снизим цену</p>
+              </div>
+            </div>
+
+            <div class="guarantee__cart_item element-animation">
+              <img class="cart-img" src="/static/img/time.png" alt="Иконка">
+              <h3 class="guarantee-title">Кратчайшие сроки доставки</h3>
+              <div class="guarantee-popup">
+                <p class="guarantee-popup-text">Всегда в срок без форс-мажоров</p>
+              </div>
+            </div>
+
+            <div class="guarantee__cart_item element-animation">
+              <img class="cart-img" src="/static/img/stand.png" alt="Иконка">
+              <h3 class="guarantee-title">100%-ая своместимость с вашим "железом"</h3>
+              <div class="guarantee-popup">
+                <p class="guarantee-popup-text">Подберем софт под ваше "железо"</p>
+              </div>
+            </div>
+
+            <div class="guarantee__cart_item element-animation">
+              <img class="cart-img" src="/static/img/personal.png" alt="Иконка">
+              <h3 class="guarantee-title">Опытные консультанты</h3>
+              <div class="guarantee-popup">
+                <p class="guarantee-popup-text">Поможем подобрать игру и даже подскажем, как проходить уровни </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+    </div>
+
+{% endblock %}
+
