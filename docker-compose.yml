@@ -71,6 +71,8 @@ services:
       - redis
     command:
       - "docker/flower.sh"
+    ports:
+      - 5555:5555
 
 volumes:
   postgresdata:

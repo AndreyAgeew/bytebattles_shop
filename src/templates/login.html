@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
+{% extends 'base_auth.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+    <video autoplay muted loop>
+        <source src="/static/graphics/SnowMeLog.mp4" type="video/mp4">
+    </video>
 
-</head>
-<body>
-<h1>Login</h1>
-<form id="loginForm">
-    <label for="email_or_phone">Email or Phone:</label>
-    <input type="text" id="email_or_phone" name="email_or_phone" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <input type="submit" value="Login">
-    <button id="registerButton">Register</button>
-</form>
-
-<script src="/static/js/auth/login.js"></script>
-<script src="/static/js/auth/register_button.js"></script>
-</body>
-</html>
+    <form id="loginForm">
+        <label for="email_or_phone">Email or Phone:</label>
+        <input type="text" id="email_or_phone" name="email_or_phone" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+        <button id="registerButton">Register</button>
+    </form>
+    <script src="/static/js/auth/login.js"></script>
+    <script src="/static/js/auth/register_button.js"></script>
+{% endblock %}

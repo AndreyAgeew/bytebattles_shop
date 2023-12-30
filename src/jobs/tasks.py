@@ -6,7 +6,6 @@ import smtplib
 
 @celery.task
 def send_order_confirmation_email(email_to, order):
-    print(1)
     msg_content = create_order_confirmation_template(email_to, order)
 
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:

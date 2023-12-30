@@ -1,35 +1,76 @@
 {% extends 'base.html' %}
+{% block title %}
+    Корзина - Магазин видеоигр
+{% endblock %}
 {% block content %}
+    <div class="container">
+        <div class="content__top">
+            <ul class="breadcrumbs">
+                <li class="breadcrumbs__item">
+                    <a class="breadcrumbs__link" href="/pages/goods/">
+                        Каталог
+                    </a>
+                </li>
+                <li class="breadcrumbs__item">
+                    <a class="breadcrumbs__link">
+                        Корзина
+                    </a>
+                </li>
+            </ul>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col"></th>
+            <h1 class="content__title">
+                Корзина
+            </h1>
+            <span class="content__info">
+          {{ cart_items|length }} товара
+        </span>
+        </div>
 
-    </tr>
-    </thead>
-    <tbody>
-    {% for game in cart_items %}
-    <tr>
-        <th scope="row">{{ loop.index }}</th>
-        <td>{{ game.name }}</td>
-        <td>{{ game.price }}</td>
-        <td>
-            <button type="button" class="btn btn-danger" onclick="removeFromCart('{{ game.id }}')">
-                Remove
-            </button>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% if cart_items %}
-<button id="initiatePaymentButton" type="button" class="btn btn-lg btn-block btn-outline-success w-50"
-        onclick="initiatePayment()"> {{total_price}}
-</button>
-{% endif %}
+        <section class="cart">
+            <form class="cart__form form" action="#" method="POST">
+                <div class="cart__field">
+                    <ul class="cart__list">
+                        {% for game in cart_items %}
+                            <li class="cart__item product">
+
+                                <div class="product__pic">
+                                    <img src="{{ game.image_url }}" width="120" height="120" alt="Название товара">
+                                </div>
+                                <h3 class="product__title">
+                                    {{ game.name }}
+                                </h3>
+                                <span class="product__code">
+                                    {{ loop.index }}
+                                 </span>
+
+                                <b class="product__price">
+                                    {{ game.price }}
+                                </b>
+
+                                <button class="product__del button-del" type="button" title="Удалить товар из корзины"
+                                        onclick="removeFromCart('{{ game.id }}')">
+                                    <img src="/static/img/del.svg" alt="Удалить">
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if cart_items %}
+                <div class="cart__block">
+                    <p class="cart__price">
+                        Итого: <span>{{ total_price }} ₽</span>
+                    </p>
+
+                    <button id="initiatePaymentButton" class="cart__button button button--primery filter__submit"
+                            type="button"
+                            onclick="initiatePayment()">
+                        Оформить заказ
+                    </button>
+                </div>
+                {% endif %}
+            </form>
+        </section>
+    </div>
 
 {% endblock %}
+

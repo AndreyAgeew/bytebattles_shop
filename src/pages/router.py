@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, Query
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -12,6 +12,7 @@ from src.cart.dependecies import get_current_cart
 from src.cart.shopping_cart import ShoppingCart
 from src.config import BASE_DIR
 from src.database import get_async_session
+from src.goods.dao import GoodsDAO
 from src.goods.dependecies import get_active_goods
 from src.goods.models import Goods
 from src.order.dependecies import get_current_orders
@@ -35,20 +36,60 @@ def get_base_page(request: Request, user: User = Depends(get_current_user)):
 
 @router.get("/goods")
 def get_goods_page(
-    request: Request,
-    goods: Goods = Depends(get_active_goods),
-    user: User = Depends(get_current_user),
-    cart: ShoppingCart = Depends(get_current_cart),
+        request: Request,
+        page: int = Query(1, ge=1),
+        page_size: int = Query(6, ge=1),
+        goods: Goods = Depends(get_active_goods),
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
 ):
     title = "Каталог"
+
+    # Рассчитать общее количество страниц
+    total_pages = len(goods) // page_size + (len(goods) % page_size > 0)
+
+    # Общее количество игр
+    total_goods_count = len(goods)
+
+    # Получить товары для текущей страницы
+    start = (page - 1) * page_size
+    end = start + page_size
+    goods_page = goods[start:end]
+
     return templates.TemplateResponse(
-        "goods.html",
+        "catalog.html",
         {
             "request": request,
             "title": title,
-            "goods": goods,
+            "goods": goods_page,
+            "total_pages": total_pages,
+            "current_page": page,
             "user": user,
-            "cart": cart,
+            "cart_items": cart,
+            "total_goods_count": total_goods_count,
+        },
+    )
+
+
+@router.get("/game/{goods_id}")
+async def get_game_details_page(
+        request: Request,
+        goods_id: int,
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
+        session: AsyncSession = Depends(get_async_session),
+):
+    goods = await GoodsDAO.find_by_id(session, goods_id)
+    if goods is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+
+    return templates.TemplateResponse(
+        "game_details.html",
+        {
+            "request": request,
+            "game": goods,
+            "user": user,
+            "cart_items": cart,
         },
     )
 
@@ -84,7 +125,7 @@ async def register_page(request: Request):
 
 @router.post("/register")
 async def register_user(
-    user_data: UserCreate, session: AsyncSession = Depends(get_async_session)
+        user_data: UserCreate, session: AsyncSession = Depends(get_async_session)
 ):
     try:
         await UserDAO.create_user(session, user_data.dict())
@@ -96,12 +137,12 @@ async def register_user(
 
 @router.get("/cart")
 async def view_cart(
-    request: Request,
-    user: User = Depends(get_current_user),
-    cart: ShoppingCart = Depends(get_current_cart),
+        request: Request,
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
 ):
     cart_items = [
-        {"name": item.name, "price": item.price, "id": item.id} for item in cart
+        {"name": item.name, "price": item.price, "id": item.id, "image_url": item.image_url} for item in cart
     ]
     total_price = await cart.get_total_price()
     return templates.TemplateResponse(
@@ -117,10 +158,24 @@ async def view_cart(
 
 @router.get("/orders")
 async def view_orders(
-    request: Request,
-    user: User = Depends(get_current_user),
-    orders: Order = Depends(get_current_orders),
+        request: Request,
+        user: User = Depends(get_current_user),
+        orders: Order = Depends(get_current_orders),
 ):
+    for order in orders:
+        items = order.basket_history
+        total_price = sum(item['price'] for item in items)
+        order.items = items
+        order.total_price = total_price
+
     return templates.TemplateResponse(
         "orders.html", {"request": request, "orders": orders, "user": user}
+    )
+
+
+@router.get("/index")
+async def get_index_page(request: Request, user: User = Depends(get_current_user)):
+    title = "Главная страница"
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "title": title, "user": user}
     )

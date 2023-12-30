@@ -1,24 +1,52 @@
 {% extends 'base.html' %}
+{% block title %}
+    Заказы - Магазин видеоигр
+{% endblock %}
 {% block content %}
+    <div class="container">
+        <div class="content__top">
+            <ul class="breadcrumbs">
+                <li class="breadcrumbs__item">
+                    <a class="breadcrumbs__link" href="/pages/goods/">
+                        Каталог
+                    </a>
+                </li>
+                <li class="breadcrumbs__item">
+                    <a class="breadcrumbs__link">
+                        Мои заказы
+                    </a>
+                </li>
+            </ul>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Статус</th>
-        <th scope="col"></th>
+            <h1 class="content__title">
+                Мои заказы
+            </h1>
+        </div>
 
-    </tr>
-    </thead>
-    <tbody>
-    {% for order in orders %}
-    <tr>
-        <th scope="row">Заказ #{{ loop.index }}</th>
-        <td>{{ order.status }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
+        <section class="cart">
+            <section class="order__form form">
+                <div class="table">
+                    <h3>Дата</h3>
+                    <h3>Наименование игры</h3>
+                    <h3 class="hid">Номер заказа</h3>
+                    <h3>Стоимость</h3>
+                    <h3>Статус заказа</h3>
+                    {% for order in orders %}
+                         <p>{{ order.created_at.strftime('%Y-%m-%d') }}<br>{{ order.created_at.strftime('%H:%M') }}</p>
+                        <p>
+                            {% for item in order.items %}
+                                {{ item.name }}<br>
+                            {% endfor %}
+                        </p>
+                        <p class="hid">{{ order.id }}</p>
+                        <p>{{ order.total_price }}</p>
+                        <p>{{ order.STATUSES[order.status] }}</p>
+                        </tr>
+                    {% endfor %}
+                </div>
+            </section>
+        </section>
+    </div>
 
 {% endblock %}
+
