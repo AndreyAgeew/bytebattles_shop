@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, Query
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,6 +12,7 @@ from src.cart.dependecies import get_current_cart
 from src.cart.shopping_cart import ShoppingCart
 from src.config import BASE_DIR
 from src.database import get_async_session
+from src.goods.dao import GoodsDAO
 from src.goods.dependecies import get_active_goods
 from src.goods.models import Goods
 from src.order.dependecies import get_current_orders
@@ -72,6 +71,29 @@ def get_goods_page(
     )
 
 
+@router.get("/game/{goods_id}")
+async def get_game_details_page(
+        request: Request,
+        goods_id: int,
+        user: User = Depends(get_current_user),
+        cart: ShoppingCart = Depends(get_current_cart),
+        session: AsyncSession = Depends(get_async_session),
+):
+    goods = await GoodsDAO.find_by_id(session, goods_id)
+    if goods is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+
+    return templates.TemplateResponse(
+        "game_details.html",
+        {
+            "request": request,
+            "game": goods,
+            "user": user,
+            "cart_items": cart,
+        },
+    )
+
+
 @router.get("/login")
 async def login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
@@ -124,7 +146,7 @@ async def view_cart(
     ]
     total_price = await cart.get_total_price()
     return templates.TemplateResponse(
-        "cart1.html",
+        "cart.html",
         {
             "request": request,
             "cart_items": cart_items,
@@ -146,10 +168,10 @@ async def view_orders(
         order.items = items
         order.total_price = total_price
 
-
     return templates.TemplateResponse(
-        "orders1.html", {"request": request, "orders": orders, "user": user}
+        "orders.html", {"request": request, "orders": orders, "user": user}
     )
+
 
 @router.get("/index")
 async def get_index_page(request: Request, user: User = Depends(get_current_user)):
